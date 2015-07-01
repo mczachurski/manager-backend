@@ -23,10 +23,10 @@ namespace SunLine.Manager.Repositories.Infrastructure
 
         protected override void OnConfiguring(EntityOptionsBuilder optionsBuilder)
         {
-            optionsBuilder.UseSqlServer("Data Source=Anemone.arvixe.com,1433;Initial Catalog=manager_test;Persist Security Info=True;User ID=manager_test;Password=<PASSWORD>");
+            optionsBuilder.UseSqlServer("Data Source=Anemone.arvixe.com,1433;Initial Catalog=manager_test;User ID=manager_test;Password=<PASSWORD>");
         }
 
-        public DbSet<User> Managers { get; set; }
+        public DbSet<User> Users { get; set; }
 
         public DbSet<TEntity> GetDbSet<TEntity>() where TEntity : class
         {
@@ -56,12 +56,13 @@ namespace SunLine.Manager.Repositories.Infrastructure
         protected override void OnModelCreating(ModelBuilder builder)
         {
             base.OnModelCreating(builder);
-            
+            /*
             builder.Entity<User>(x => {
                 x.Key(e => e.Id);
                 x.Property(e => e.Id).ForSqlServer().UseIdentity();
                 x.Property(e => e.Id).ForSqlServer().UseSequence();
             });
+            */
         }
     }
 }

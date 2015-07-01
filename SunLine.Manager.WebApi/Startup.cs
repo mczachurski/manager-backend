@@ -1,14 +1,14 @@
-using System;
 using Microsoft.AspNet.Builder;
 using Microsoft.AspNet.Hosting;
 using Microsoft.AspNet.Diagnostics;
 using Microsoft.AspNet.Diagnostics.Entity;
 using Microsoft.Data.Entity;
+using Microsoft.Framework.Runtime;
 using Microsoft.Framework.DependencyInjection;
 using Microsoft.Framework.Configuration;
-using Autofac;
-using Autofac.Dnx;
 using SunLine.Manager.Repositories.Infrastructure;
+using SunLine.Manager.Repositories.Core;
+using SunLine.Manager.Services.Core;
 
 namespace SunLine.Manager.WebApi
 {
@@ -16,9 +16,9 @@ namespace SunLine.Manager.WebApi
     {
         public IConfiguration Configuration { get; set; }
         
-        public Startup(IHostingEnvironment env)
+        public Startup(IHostingEnvironment env, IApplicationEnvironment appEnv)
         {
-            var configurationBuilder = new ConfigurationBuilder()
+            var configurationBuilder = new ConfigurationBuilder(appEnv.ApplicationBasePath)
                 .AddJsonFile("config.json")
                 .AddJsonFile($"config.{env.EnvironmentName}.json", optional: true);
                 
@@ -30,13 +30,11 @@ namespace SunLine.Manager.WebApi
             }
             
             configurationBuilder.AddEnvironmentVariables();
-            Configuration = configurationBuilder.Build();;
+            Configuration = configurationBuilder.Build();
         }
 
-        public IServiceProvider ConfigureServices(IServiceCollection services)
-        {
-            services.AddEntityFramework().AddSqlServer().AddDbContext<DatabaseContext>();
-            
+        public void ConfigureServices(IServiceCollection services)
+        {            
             services.AddEntityFramework()
                 .AddSqlServer()
                 .AddDbContext<DatabaseContext>(options =>
@@ -44,29 +42,16 @@ namespace SunLine.Manager.WebApi
             
             services.AddMvc();
             
-            IServiceProvider serviceProvider = ConfigureDependencyInjection(services);
-            return serviceProvider;
+            services.AddTransient<IUserRepository, UserRepository>();
+            services.AddTransient<IUserService, UserService>();
         }
 
         public void Configure(IApplicationBuilder app, IHostingEnvironment env)
         {
-            if (env.IsEnvironment("Development"))
-            {
-                app.UseErrorPage(ErrorPageOptions.ShowAll);
-                app.UseDatabaseErrorPage(DatabaseErrorPageOptions.ShowAll);
-            }
+            app.UseErrorPage(ErrorPageOptions.ShowAll);
+            app.UseDatabaseErrorPage(DatabaseErrorPageOptions.ShowAll);
             
             app.UseMvc();
-        }
-        
-        public IServiceProvider ConfigureDependencyInjection(IServiceCollection services)  
-        {            
-            var builder = new ContainerBuilder();
-            builder.RegisterModule(new InjectionModule());
-            builder.Populate(services);
-           
-            var container = builder.Build();
-            return container.Resolve<IServiceProvider>();
         }
     }
 }
