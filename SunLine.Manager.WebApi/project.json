@@ -1,0 +1,46 @@
+{
+    "webroot": "wwwroot",
+    "userSecretsId": "aspnet5-Manager-84412a16-023a-4e62-91ce-b2edc30645d6",
+    "version": "1.0.0-*",
+
+    "dependencies": {
+        "Microsoft.AspNet.Mvc": "6.0.0-beta5",
+        "Microsoft.AspNet.Server.IIS": "1.0.0-beta5",
+        "Microsoft.AspNet.Server.WebListener": "1.0.0-beta5",
+        "Microsoft.AspNet.Diagnostics": "1.0.0-beta5",
+        "Microsoft.AspNet.Diagnostics.Entity": "7.0.0-beta5",
+        "Microsoft.Framework.DependencyInjection": "1.0.0-beta5",
+        "Microsoft.Framework.DependencyInjection.Abstractions": "1.0.0-beta5",
+        "Microsoft.Framework.Configuration": "1.0.0-beta5",
+        "Microsoft.Framework.Configuration.UserSecrets": "1.0.0-beta5",
+        "Kestrel": "1.0.0-beta5",
+        "Autofac": "4.0.0-*",
+        "Autofac.Dnx": "4.0.0-*",
+        "SunLine.Manager.Entities": "1.0.0-*",
+        "SunLine.Manager.Repositories": "1.0.0-*",
+        "SunLine.Manager.Services": "1.0.0-*"
+    },
+
+    "commands": {
+        "web": "Microsoft.AspNet.Hosting --server Microsoft.AspNet.Server.WebListener --server.urls http://localhost:5000",
+        "kestrel": "Microsoft.AspNet.Hosting --server Kestrel --server.urls http://localhost:5001"
+    },
+
+    "frameworks": {
+        "dnx451": {},
+        "dnxcore50": {}
+    },
+
+    "exclude": [
+    "wwwroot",
+    "node_modules",
+    "bower_components"
+  ],
+    "publishExclude": [
+    "node_modules",
+    "bower_components",
+    "**.xproj",
+    "**.user",
+    "**.vspscc"
+  ]
+}
