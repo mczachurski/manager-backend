@@ -15,16 +15,10 @@ namespace SunLine.Manager.Repositories.Infrastructure
             // are supported in ASP.NET 5
             if (!_created)
             {
-                Database.AsRelational().ApplyMigrations();
-                
+                //Database.AsRelational().ApplyMigrations();
                 _created = true;
             }
         }            
-
-        protected override void OnConfiguring(EntityOptionsBuilder optionsBuilder)
-        {
-            optionsBuilder.UseSqlServer("Data Source=Anemone.arvixe.com,1433;Initial Catalog=manager_test;User ID=manager_test;Password=<PASSWORD>");
-        }
 
         public DbSet<User> Users { get; set; }
 
@@ -48,21 +42,9 @@ namespace SunLine.Manager.Repositories.Infrastructure
             return Entry(entity).State == EntityState.Added;
         }
 
-        public virtual void Commit()
-        {
-            SaveChanges();
-        }
-
         protected override void OnModelCreating(ModelBuilder builder)
         {
             base.OnModelCreating(builder);
-            /*
-            builder.Entity<User>(x => {
-                x.Key(e => e.Id);
-                x.Property(e => e.Id).ForSqlServer().UseIdentity();
-                x.Property(e => e.Id).ForSqlServer().UseSequence();
-            });
-            */
         }
     }
 }

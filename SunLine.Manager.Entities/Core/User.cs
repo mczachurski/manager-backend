@@ -8,7 +8,7 @@ namespace SunLine.Manager.Entities.Core
         
         public override string ToString()
         {
-            return $"{FirstName} {LastName}";
+            return $"{FirstName} {LastName} ({Email})";
         }
     }
 }

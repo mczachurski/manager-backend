@@ -16,5 +16,10 @@ namespace SunLine.Manager.Services.Core
 		{
 			return _userRepository.FindById(id);
 		}
+		
+		public User Create(User user)
+		{
+			return _userRepository.Create(user);
+		}
 	}
 }

@@ -4,6 +4,9 @@
     "version": "1.0.0-*",
 
     "dependencies": {
+        "EntityFramework.SqlServer": "7.0.0-beta5",
+        "EntityFramework.InMemory": "7.0.0-beta5",
+        "EntityFramework.Commands": "7.0.0-beta5",
         "Microsoft.AspNet.Mvc": "6.0.0-beta5",
         "Microsoft.AspNet.Server.IIS": "1.0.0-beta5",
         "Microsoft.AspNet.Server.WebListener": "1.0.0-beta5",
@@ -13,6 +16,8 @@
         "Microsoft.Framework.DependencyInjection.Abstractions": "1.0.0-beta5",
         "Microsoft.Framework.Configuration": "1.0.0-beta5",
         "Microsoft.Framework.Configuration.UserSecrets": "1.0.0-beta5",
+        "Microsoft.Framework.Logging": "1.0.0-beta5",
+        "Microsoft.Framework.Logging.Console": "1.0.0-beta5",
         "Kestrel": "1.0.0-beta5",
         "SunLine.Manager.Entities": "1.0.0-*",
         "SunLine.Manager.Repositories": "1.0.0-*",
