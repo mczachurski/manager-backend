@@ -10,28 +10,39 @@ namespace SunLine.Manager.WebApi.Controllers
     public class UsersController : Controller
     {
         private readonly IUserService _userService;
+        private readonly ITeamService _teamService;
         private readonly IUnitOfWork _unitOfWork;
         
-        public UsersController(IUnitOfWork unitOfWork, IUserService userService)
+        public UsersController(IUnitOfWork unitOfWork, IUserService userService, ITeamService teamService)
         {
-            _userService = userService;
             _unitOfWork = unitOfWork;
+            _userService = userService;
+            _teamService = teamService;
         }
         
         [HttpGet("{id}")]
-        public string Get(int id)
+        public User Get(int id)
         {
             var user = _userService.FindById(id);
-            return user != null ? user.ToString() : "Nie znaleziono użytkownika";
+            return user;
         }
         
         [HttpPost]
-        public void Post([FromBody]User user)
-        {
-            user.CreationDate = DateTime.Now;
-            user.Version = 1;
-            
+        public void CreateUser([FromBody]User user)
+        {            
             _userService.Create(user);
+            _unitOfWork.Commit();
+        }
+        
+        
+        [Route("{userId}/Team")]
+        [HttpPost]
+        public void CreateTeam(int userId, [FromBody]Team team)
+        {
+            var user = _userService.FindById(userId);
+            team.User = user;
+                        
+            _teamService.Create(team);
             _unitOfWork.Commit();
         }
     }

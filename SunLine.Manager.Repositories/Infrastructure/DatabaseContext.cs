@@ -1,5 +1,4 @@
 using Microsoft.Data.Entity;
-using SunLine.Manager.Entities;
 using SunLine.Manager.Entities.Core;
 
 namespace SunLine.Manager.Repositories.Infrastructure
@@ -25,21 +24,6 @@ namespace SunLine.Manager.Repositories.Infrastructure
         public DbSet<TEntity> GetDbSet<TEntity>() where TEntity : class
         {
             return Set<TEntity>();
-        }
-
-        public void SetModifiedEntityState(BaseEntity entity)
-        {            
-            Entry(entity).State = EntityState.Modified;
-        }
-
-        public bool IsDetachedentityState(BaseEntity entity)
-        {
-            return Entry(entity).State == EntityState.Detached;
-        }
-
-        public bool IsNewEntity(BaseEntity entity)
-        {
-            return Entry(entity).State == EntityState.Added;
         }
 
         protected override void OnModelCreating(ModelBuilder builder)

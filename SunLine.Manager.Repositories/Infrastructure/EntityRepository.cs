@@ -23,31 +23,21 @@ namespace SunLine.Manager.Repositories.Infrastructure
             entity.Version = 1;
             entity.CreationDate = DateTime.UtcNow;
 
-            DbSet.Add(entity);
+            _databaseContext.Add(entity);
             return entity;
         }
             
         public void Update(T entity)
         {
-            if(_databaseContext.IsNewEntity(entity))
-            {
-                return;
-            }
-
             entity.Version++;
             entity.ModificationDate = DateTime.UtcNow;
 
-            DbSet.Attach(entity);
-            _databaseContext.SetModifiedEntityState(entity);
+            _databaseContext.Update(entity);
         }
             
         public void Delete(T entity)
         {
-            if (_databaseContext.IsDetachedentityState(entity))
-            {
-                DbSet.Attach(entity);
-            }
-            DbSet.Remove(entity);
+            _databaseContext.Remove(entity);
         }
             
         public IQueryable<T> Find(Expression<Func<T, bool>> predicate)

@@ -43,7 +43,9 @@ namespace SunLine.Manager.WebApi
             
             services.AddTransient<IUnitOfWork, UnitOfWork>();
             services.AddTransient<IUserRepository, UserRepository>();
+            services.AddTransient<ITeamRepository, TeamRepository>();
             services.AddTransient<IUserService, UserService>();
+            services.AddTransient<ITeamService, TeamService>();
         }
 
         public void Configure(IApplicationBuilder app, IHostingEnvironment env, ILoggerFactory loggerFactory)
