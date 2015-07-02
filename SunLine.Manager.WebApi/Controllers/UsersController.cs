@@ -34,12 +34,11 @@ namespace SunLine.Manager.WebApi.Controllers
             _unitOfWork.Commit();
         }
         
-        
-        [Route("{userId}/Team")]
+        [Route("{id}/Team")]
         [HttpPost]
-        public void CreateTeam(int userId, [FromBody]Team team)
+        public void CreateTeam(int id, [FromBody]Team team)
         {
-            var user = _userService.FindById(userId);
+            var user = _userService.FindById(id);
             team.User = user;
                         
             _teamService.Create(team);
