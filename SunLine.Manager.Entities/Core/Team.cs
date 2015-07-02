@@ -11,6 +11,7 @@ namespace SunLine.Manager.Entities.Core
 		
 		public string Name { get; set; }
 		public User User { get; set; }
+		public int UserId { get; set; }
 		public IList<Player> Players { get; set; }
 		
 		public override string ToString()

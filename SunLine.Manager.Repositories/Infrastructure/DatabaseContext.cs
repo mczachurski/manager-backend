@@ -19,7 +19,7 @@ namespace SunLine.Manager.Repositories.Infrastructure
             }
         }            
 
-        public DbSet<User> Users { get; set; }
+        public virtual DbSet<User> Users { get; set; }
 
         public DbSet<TEntity> GetDbSet<TEntity>() where TEntity : class
         {
@@ -28,7 +28,7 @@ namespace SunLine.Manager.Repositories.Infrastructure
 
         protected override void OnModelCreating(ModelBuilder builder)
         {            
-            builder.Entity<User>().Reference(m => m.Team).InverseReference(); 
+            builder.Entity<User>().Reference(m => m.Team).InverseReference(x => x.User).ForeignKey<User>(x => x.TeamId); 
         }
     }
 }

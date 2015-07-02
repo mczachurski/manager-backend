@@ -6,6 +6,7 @@ namespace SunLine.Manager.Entities.Core
         public string LastName { get; set; }
         public string Email { get; set; }
         public Team Team { get; set; }
+        public int TeamId { get; set; }
         
         public override string ToString()
         {
