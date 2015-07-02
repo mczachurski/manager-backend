@@ -27,7 +27,9 @@ namespace SunLine.Manager.Repositories.Infrastructure
         }
 
         protected override void OnModelCreating(ModelBuilder builder)
-        {            
+        {           
+            base.OnModelCreating(builder);
+            
             builder.Entity<User>().Reference(m => m.Team).InverseReference(x => x.User).ForeignKey<User>(x => x.TeamId); 
         }
     }
