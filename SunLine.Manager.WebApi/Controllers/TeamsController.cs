@@ -1,30 +1,34 @@
-using System;
 using Microsoft.AspNet.Mvc;
 using SunLine.Manager.Services.Core;
-using SunLine.Manager.Entities.Core;
 using SunLine.Manager.Repositories.Infrastructure;
+using SunLine.Manager.WebApi.HttpResult;
+using SunLine.Manager.WebApi.DataTransferObject;
 
 namespace SunLine.Manager.WebApi.Controllers
 {
     [Route("api/[controller]")]
     public class TeamsController : Controller
     {
-        private readonly IUserService _userService;
         private readonly ITeamService _teamService;
         private readonly IUnitOfWork _unitOfWork;
         
-        public TeamsController(IUnitOfWork unitOfWork, IUserService userService, ITeamService teamService)
+        public TeamsController(IUnitOfWork unitOfWork, ITeamService teamService)
         {
             _unitOfWork = unitOfWork;
-            _userService = userService;
             _teamService = teamService;
         }
         
         [HttpGet("{id}")]
-        public Team Get(int id)
+        public IActionResult Get(int id)
         {
             var team = _teamService.FindById(id);
-            return team;
+            if(team == null)
+            {
+                return this.HttpNotFound($"Team ({id}) not exists", DocumentationLinks.Users);
+            }
+            
+            var teamDto = new TeamDto(team);
+            return new JsonResult(teamDto);
         }
     }
 }

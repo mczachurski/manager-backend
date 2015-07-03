@@ -21,5 +21,10 @@ namespace SunLine.Manager.Services.Core
 		{
 			return _userRepository.Create(user);
 		}
+		
+		public User FindByEmail(string email)
+		{
+			return _userRepository.FindByEmail(email);
+		}
 	}
 }

@@ -6,5 +6,6 @@ namespace SunLine.Manager.Services.Core
 	{
 		User FindById(int id);
 		User Create(User user);
+		User FindByEmail(string email);
 	}
 }

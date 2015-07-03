@@ -1,9 +1,21 @@
 using System.ComponentModel.DataAnnotations;
+using SunLine.Manager.Entities.Core;
 
 namespace SunLine.Manager.WebApi.DataTransferObject
 {
-	public class UserDto
+	public class UserDto : BaseEntityDto
 	{
+		public UserDto()
+		{
+		}
+		
+		public UserDto(User user) : base(user)
+		{
+			FirstName = user.FirstName;
+			LastName = user.LastName;
+			Email = user.Email;
+		}
+		
 		[Required(ErrorMessage = "Firstname is required")]
 		public string FirstName { get ; set; }
 		

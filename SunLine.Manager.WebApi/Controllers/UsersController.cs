@@ -22,7 +22,7 @@ namespace SunLine.Manager.WebApi.Controllers
         }
         
         [HttpGet("{id}")]
-        public ActionResult GetUser(int id)
+        public IActionResult GetUser(int id)
         {
             var user = _userService.FindById(id);
             if(user == null)
@@ -30,12 +30,13 @@ namespace SunLine.Manager.WebApi.Controllers
                 return this.HttpNotFound($"User ({id}) not exists", DocumentationLinks.Users);
             }
             
-            return new JsonResult(user);
+            var userDto = new UserDto(user);
+            return new JsonResult(userDto);
         }
 
         [Route("{id}/Team")]
         [HttpGet]
-        public ActionResult GetUserTeam(int id)
+        public IActionResult GetUserTeam(int id)
         {
             var user = _userService.FindById(id);
             if(user == null)
@@ -44,16 +45,17 @@ namespace SunLine.Manager.WebApi.Controllers
             }
             
             var team = _teamService.FindById(user.TeamId);
-            if(user == null)
+            if(team == null)
             {
                 return this.HttpNotFound($"Team for user ({id}) not exists", DocumentationLinks.Users);
             }
             
-            return new JsonResult(new { Name = team.Name, UserId = team.UserId });
+            var teamDto = new TeamDto(team);
+            return new JsonResult(teamDto);
         }
         
         [HttpPost]
-        public ActionResult CreateUser([FromBody]UserDto userDto)
+        public IActionResult CreateUser([FromBody]UserDto userDto)
         {            
             if(userDto == null)
             {
@@ -63,6 +65,12 @@ namespace SunLine.Manager.WebApi.Controllers
             if (!ModelState.IsValid)
             {
                 return this.HttpBadModelState("Error in user data model", DocumentationLinks.Users);
+            }
+            
+            var userAlreadyExists = _userService.FindByEmail(userDto.Email);
+            if(userAlreadyExists != null)
+            {
+                return this.HttpForbidden("User with this email already exists", DocumentationLinks.Users);   
             }
             
             var user = new User
@@ -80,7 +88,7 @@ namespace SunLine.Manager.WebApi.Controllers
         
         [Route("{id}/Team")]
         [HttpPost]
-        public ActionResult CreateTeam(int id, [FromBody]TeamDto teamDto)
+        public IActionResult CreateTeam(int id, [FromBody]TeamDto teamDto)
         {
             if(teamDto == null)
             {

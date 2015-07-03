@@ -5,6 +5,6 @@ namespace SunLine.Manager.Repositories.Core
 {  
     public interface IUserRepository : IEntityRepository<User>
     {
-        
+        User FindByEmail(string email);
     }
 }
