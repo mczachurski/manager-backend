@@ -6,5 +6,6 @@ namespace SunLine.Manager.WebApi
 		public const string ClientKey = "http://manageruser.pl/clientkey";
 		public const string Users = "http://manageruser.pl/users";
 		public const string Teams = "http://manageruser.pl/teams";
+		public const string SignIn = "http://manageruser.pl/signin";
 	}
 }

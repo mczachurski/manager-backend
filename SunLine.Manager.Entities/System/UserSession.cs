@@ -5,11 +5,11 @@ namespace SunLine.Manager.Entities.System
 {
     public class UserSession : BaseEntity
     {
-        public virtual User User { get; set; }
-        public virtual string Host { get; set; }
-        public virtual bool IsActive { get; set; }
-        public virtual DateTime SessionStart { get; set; }
-        public virtual DateTime? SessionEnd { get; set; }
-        public virtual Guid AccessToken { get; set; }
+        public User User { get; set; }
+        public string Host { get; set; }
+        public bool IsActive { get; set; }
+        public DateTime SessionStart { get; set; }
+        public DateTime? SessionEnd { get; set; }
+        public Guid AccessToken { get; set; }
     }
 }

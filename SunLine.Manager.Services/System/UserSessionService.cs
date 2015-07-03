@@ -14,8 +14,10 @@ namespace SunLine.Manager.Services.System
             _userSessionRepository = userSessionRepository;
         }
 
-        public UserSession CreateUserSession(User user, Guid accessToken, string host)
+        public UserSession CreateUserSession(User user, string host)
         {
+            var accessToken = Guid.NewGuid();
+            
             var userSession = new UserSession
             {
                 IsActive = true,

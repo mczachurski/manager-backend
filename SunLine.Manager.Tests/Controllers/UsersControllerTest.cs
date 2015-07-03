@@ -1,26 +1,103 @@
+using System;
 using Microsoft.AspNet.Mvc;
 using Xunit;
 using Moq;
 using SunLine.Manager.WebApi.Controllers;
 using SunLine.Manager.WebApi.DataTransferObject;
 using SunLine.Manager.Entities.Core;
+using SunLine.Manager.Entities.System;
 using SunLine.Manager.Repositories.Core;
 using SunLine.Manager.Repositories.Infrastructure;
 using SunLine.Manager.Services.Core;
+using SunLine.Manager.Services.System;
 
 namespace SunLine.Manager.Tests.Controllers
 {
 	public class UsersControllerTest
 	{
+		private Mock<IUnitOfWork> _unitOfWork;
+		private Mock<IUserService> _userService;
+		private Mock<ITeamService> _teamService;
+		private Mock<IUserSessionService> _userSessionService;
+		private UsersController _usersController;
+		
+		private void CreateUserControllerMocks()
+		{			
+			_unitOfWork = new Mock<IUnitOfWork>();
+			_userService = new Mock<IUserService>();
+			_teamService = new Mock<ITeamService>();
+			_userSessionService = new Mock<IUserSessionService>();
+			_usersController = new UsersController(_unitOfWork.Object, _userService.Object, _teamService.Object, _userSessionService.Object);
+		}
+		
+		[Fact]
+		public void SignInMustReturnBadRequestWhenSignInDataIsEmpty()
+		{
+			CreateUserControllerMocks();
+			
+			var actionResult = _usersController.SignIn(null) as ObjectResult;
+			
+			Assert.NotNull(actionResult);
+			Assert.Equal(400, actionResult.StatusCode);
+			dynamic data = actionResult.Value;  
+    		Assert.Equal("Sign in data not specified", data.Message);
+		}
+		
+		[Fact]
+		public void SignInMustReturnBadRequestWhenSignInModelStateIsInvalid()
+		{
+			CreateUserControllerMocks();
+			var signInDto = new SignInDto { Email = string.Empty, Password = "password" };
+			_usersController.ModelState.AddModelError("Email", "Email is required");
+			
+			var actionResult = _usersController.SignIn(signInDto) as ObjectResult;
+			
+			Assert.NotNull(actionResult);
+			Assert.Equal(400, actionResult.StatusCode);
+			Assert.NotNull(actionResult.Value);
+			dynamic data = actionResult.Value;  
+    		Assert.Equal("Error in sign in data model", data.Message);
+			Assert.Equal("Email", data.ModelErrors[0].FieldName);  
+		}
+
+		[Fact]
+		public void SignInMustReturnFailureMessageAfterNotSuccessfullSignIn()
+		{
+			CreateUserControllerMocks();
+			var signInDto = new SignInDto { Email = "email@email.com", Password = "password" };
+			
+			var actionResult = _usersController.SignIn(signInDto) as JsonResult;
+			
+			Assert.NotNull(actionResult);
+			dynamic data = actionResult.Value;  
+			Assert.Equal("Email or password are incorrect", data.Message);
+			Assert.Equal(false, data.IsSuccess);
+		}
+		
+		[Fact]
+		public void SignInMustReturnAccessTokenAfterSuccessfullSignIn()
+		{
+			CreateUserControllerMocks();
+			var user = new User { Id = 1, FirstName = "John", LastName = "Smith" };
+			var userSession = new UserSession { AccessToken = Guid.Parse("09d7ab22-a936-4ac9-8fb8-4ba7dc95815e"), User = user, IsActive = true };
+			_userService.Setup(x => x.FindByCredentials(It.IsAny<string>(), It.IsAny<string>())).Returns((string email, string password) => user);
+			_userSessionService.Setup(x => x.CreateUserSession(It.IsAny<User>(), It.IsAny<string>())).Returns((User userData, string host) => userSession);	
+			var signInDto = new SignInDto { Email = "email@email.com", Password = "password" };
+			
+			var actionResult = _usersController.SignIn(signInDto) as JsonResult;
+			
+			Assert.NotNull(actionResult);
+			dynamic data = actionResult.Value;  
+			Assert.Equal("09d7ab22-a936-4ac9-8fb8-4ba7dc95815e", data.AccessToken);
+			Assert.Equal(true, data.IsSuccess);
+		}
+		
 		[Fact]
 		public void GetUserMustReturnNotFoundWhenUserNotExists()
 		{
-			var unitOfWork = new Mock<IUnitOfWork>();
-			var userService = new Mock<IUserService>();
-			var teamService = new Mock<ITeamService>();
-			var usersController = new UsersController(unitOfWork.Object, userService.Object, teamService.Object);
+			CreateUserControllerMocks();
 			
-			var actionResult = usersController.GetUser(1) as ObjectResult;
+			var actionResult = _usersController.GetUser(1) as ObjectResult;
 			
 			Assert.NotNull(actionResult);
 			Assert.Equal(404, actionResult.StatusCode);
@@ -31,13 +108,10 @@ namespace SunLine.Manager.Tests.Controllers
 		[Fact]
 		public void GetUserMustReturnUserDataWhenUserExists()
 		{
-			var unitOfWork = new Mock<IUnitOfWork>();
-			var teamService = new Mock<ITeamService>();
-			var userService = new Mock<IUserService>();
-			var usersController = new UsersController(unitOfWork.Object, userService.Object, teamService.Object);
-			userService.Setup(x => x.FindById(It.IsAny<int>())).Returns((int id) => new User() { Id = id, FirstName = "John", LastName = "Smith" });
+			CreateUserControllerMocks();
+			_userService.Setup(x => x.FindById(It.IsAny<int>())).Returns((int id) => new User() { Id = id, FirstName = "John", LastName = "Smith" });
 			
-			var actionResult = usersController.GetUser(1) as JsonResult;
+			var actionResult = _usersController.GetUser(1) as JsonResult;
 			
 			Assert.NotNull(actionResult);
 			dynamic data = actionResult.Value;  
@@ -49,12 +123,9 @@ namespace SunLine.Manager.Tests.Controllers
 		[Fact]
 		public void GetUserTeamMustReturnNotFoundWhenUserNotExists()
 		{
-			var unitOfWork = new Mock<IUnitOfWork>();
-			var userService = new Mock<IUserService>();
-			var teamService = new Mock<ITeamService>();
-			var usersController = new UsersController(unitOfWork.Object, userService.Object, teamService.Object);
+			CreateUserControllerMocks();
 			
-			var actionResult = usersController.GetUserTeam(1) as ObjectResult;
+			var actionResult = _usersController.GetUserTeam(1) as ObjectResult;
 			
 			Assert.NotNull(actionResult);
 			Assert.Equal(404, actionResult.StatusCode);
@@ -65,13 +136,10 @@ namespace SunLine.Manager.Tests.Controllers
 		[Fact]
 		public void GetUserTeamMustReturnNotFoundWhenUserTeamNotExists()
 		{
-			var unitOfWork = new Mock<IUnitOfWork>();
-			var teamService = new Mock<ITeamService>();
-			var userService = new Mock<IUserService>();
-			var usersController = new UsersController(unitOfWork.Object, userService.Object, teamService.Object);
-			userService.Setup(x => x.FindById(It.IsAny<int>())).Returns((int id) => new User() { Id = id, FirstName = "John", LastName = "Smith" });
+			CreateUserControllerMocks();
+			_userService.Setup(x => x.FindById(It.IsAny<int>())).Returns((int id) => new User() { Id = id, FirstName = "John", LastName = "Smith" });
 			
-			var actionResult = usersController.GetUserTeam(1) as ObjectResult;
+			var actionResult = _usersController.GetUserTeam(1) as ObjectResult;
 			
 			Assert.NotNull(actionResult);
 			Assert.Equal(404, actionResult.StatusCode);
@@ -82,18 +150,15 @@ namespace SunLine.Manager.Tests.Controllers
 		[Fact]
 		public void GetUserTeamMustReturnTeamWhenUserTeamExists()
 		{
-			var unitOfWork = new Mock<IUnitOfWork>();
-			var teamService = new Mock<ITeamService>();
-			var userService = new Mock<IUserService>();
-			var usersController = new UsersController(unitOfWork.Object, userService.Object, teamService.Object);
-			userService.Setup(x => x.FindById(It.IsAny<int>())).Returns((int id) => 
+			CreateUserControllerMocks();
+			_userService.Setup(x => x.FindById(It.IsAny<int>())).Returns((int id) => 
 				new User() { Id = id, FirstName = "John", LastName = "Smith", TeamId = 1 }
 			);
-			teamService.Setup(x => x.FindById(It.IsAny<int>())).Returns((int id) =>
+			_teamService.Setup(x => x.FindById(It.IsAny<int>())).Returns((int id) =>
 				new Team { Id = id, Name = "FC Barcelona" }
 			);
 			
-			var actionResult = usersController.GetUserTeam(1) as JsonResult;
+			var actionResult = _usersController.GetUserTeam(1) as JsonResult;
 			
 			Assert.NotNull(actionResult);
 			dynamic data = actionResult.Value;  
@@ -104,12 +169,9 @@ namespace SunLine.Manager.Tests.Controllers
 		[Fact]
 		public void CreateUserMustReturnBadRequestWhenUserDataIsEmpty()
 		{
-			var unitOfWork = new Mock<IUnitOfWork>();
-			var userService = new Mock<IUserService>();
-			var teamService = new Mock<ITeamService>();
-			var usersController = new UsersController(unitOfWork.Object, userService.Object, teamService.Object);
+			CreateUserControllerMocks();
 			
-			var actionResult = usersController.CreateUser(null) as ObjectResult;
+			var actionResult = _usersController.CreateUser(null) as ObjectResult;
 			
 			Assert.NotNull(actionResult);
 			Assert.Equal(400, actionResult.StatusCode);
@@ -120,14 +182,11 @@ namespace SunLine.Manager.Tests.Controllers
 		[Fact]
 		public void CreateUserMustReturnBadRequestWhenUserModelStateIsInvalid()
 		{
-			var unitOfWork = new Mock<IUnitOfWork>();
-			var userService = new Mock<IUserService>();
-			var teamService = new Mock<ITeamService>();
-			var usersController = new UsersController(unitOfWork.Object, userService.Object, teamService.Object);
+			CreateUserControllerMocks();
 			var userDto = new UserDto { FirstName = "John", LastName = "Smith", Email = "bademailformat" };
-			usersController.ModelState.AddModelError("Email", "Bad email format");
+			_usersController.ModelState.AddModelError("Email", "Bad email format");
 			
-			var actionResult = usersController.CreateUser(userDto) as ObjectResult;
+			var actionResult = _usersController.CreateUser(userDto) as ObjectResult;
 			
 			Assert.NotNull(actionResult);
 			Assert.Equal(400, actionResult.StatusCode);
@@ -140,16 +199,13 @@ namespace SunLine.Manager.Tests.Controllers
 		[Fact]
 		public void CreateUserMustReturnForbiddenWhenUserWithThisSameEmailExists()
 		{
-			var unitOfWork = new Mock<IUnitOfWork>();
-			var userService = new Mock<IUserService>();
-			var teamService = new Mock<ITeamService>();
-			var usersController = new UsersController(unitOfWork.Object, userService.Object, teamService.Object);
+			CreateUserControllerMocks();
 			var userDto = new UserDto { FirstName = "John", LastName = "Smith", Email = "johnsmith@email.com" };
-			userService.Setup(x => x.FindByEmail(It.IsAny<string>())).Returns((string email) => 
+			_userService.Setup(x => x.FindByEmail(It.IsAny<string>())).Returns((string email) => 
 				new User() { Id = 1, FirstName = "John", LastName = "Smith", TeamId = 1, Email = email }
 			);
 			
-			var actionResult = usersController.CreateUser(userDto) as ObjectResult;
+			var actionResult = _usersController.CreateUser(userDto) as ObjectResult;
 			
 			Assert.NotNull(actionResult);
 			Assert.Equal(403, actionResult.StatusCode);
@@ -160,13 +216,10 @@ namespace SunLine.Manager.Tests.Controllers
 		[Fact]
 		public void CreateUserMustReturnSuccessWhenUserIsValid()
 		{
-			var unitOfWork = new Mock<IUnitOfWork>();
-			var teamService = new Mock<ITeamService>();
-			var userService = new Mock<IUserService>();
-			var usersController = new UsersController(unitOfWork.Object, userService.Object, teamService.Object);
+			CreateUserControllerMocks();
 			var userDto = new UserDto { FirstName = "John", LastName = "Smith", Email = "email@email.com" };
 			
-			var actionResult = usersController.CreateUser(userDto) as JsonResult;
+			var actionResult = _usersController.CreateUser(userDto) as JsonResult;
 			
 			Assert.NotNull(actionResult);
 			dynamic data = actionResult.Value;  
@@ -176,12 +229,9 @@ namespace SunLine.Manager.Tests.Controllers
 		[Fact]
 		public void CreateTeamMustReturnBadRequestWhenTeamDataIsEmpty()
 		{
-			var unitOfWork = new Mock<IUnitOfWork>();
-			var userService = new Mock<IUserService>();
-			var teamService = new Mock<ITeamService>();
-			var usersController = new UsersController(unitOfWork.Object, userService.Object, teamService.Object);
+			CreateUserControllerMocks();
 			
-			var actionResult = usersController.CreateTeam(1, null) as ObjectResult;
+			var actionResult = _usersController.CreateTeam(1, null) as ObjectResult;
 			
 			Assert.NotNull(actionResult);
 			Assert.Equal(400, actionResult.StatusCode);
@@ -192,13 +242,10 @@ namespace SunLine.Manager.Tests.Controllers
 		[Fact]
 		public void CreateTeamMustReturnNotFoundWhenUserNotExists()
 		{
-			var unitOfWork = new Mock<IUnitOfWork>();
-			var userService = new Mock<IUserService>();
-			var teamService = new Mock<ITeamService>();
-			var usersController = new UsersController(unitOfWork.Object, userService.Object, teamService.Object);
+			CreateUserControllerMocks();
 			var teamDto = new TeamDto();
 			
-			var actionResult = usersController.CreateTeam(0, teamDto) as ObjectResult;
+			var actionResult = _usersController.CreateTeam(0, teamDto) as ObjectResult;
 			
 			Assert.NotNull(actionResult);
 			Assert.Equal(404, actionResult.StatusCode);
@@ -209,16 +256,13 @@ namespace SunLine.Manager.Tests.Controllers
 		[Fact]
 		public void CreateTeamMustReturnForbiddenWhenUserAlreadyHasTeam()
 		{
-			var unitOfWork = new Mock<IUnitOfWork>();
-			var userService = new Mock<IUserService>();
-			var teamService = new Mock<ITeamService>();
-			var usersController = new UsersController(unitOfWork.Object, userService.Object, teamService.Object);
-			userService.Setup(x => x.FindById(It.IsAny<int>())).Returns((int id) => 
+			CreateUserControllerMocks();
+			_userService.Setup(x => x.FindById(It.IsAny<int>())).Returns((int id) => 
 				new User() { Id = id, FirstName = "John", LastName = "Smith", TeamId = 1 }
 			);
 			var teamDto = new TeamDto();
 			
-			var actionResult = usersController.CreateTeam(1, teamDto) as ObjectResult;
+			var actionResult = _usersController.CreateTeam(1, teamDto) as ObjectResult;
 			
 			Assert.NotNull(actionResult);
 			Assert.Equal(403, actionResult.StatusCode);
@@ -229,17 +273,14 @@ namespace SunLine.Manager.Tests.Controllers
 		[Fact]
 		public void CreateTeamMustReturnBadRequestWhenTeamModelStateIsInvalid()
 		{
-			var unitOfWork = new Mock<IUnitOfWork>();
-			var userService = new Mock<IUserService>();
-			var teamService = new Mock<ITeamService>();
-			var usersController = new UsersController(unitOfWork.Object, userService.Object, teamService.Object);
-			userService.Setup(x => x.FindById(It.IsAny<int>())).Returns((int id) => 
+			CreateUserControllerMocks();
+			_userService.Setup(x => x.FindById(It.IsAny<int>())).Returns((int id) => 
 				new User() { Id = id, FirstName = "John", LastName = "Smith", TeamId = 0 }
 			);
 			var teamDto = new TeamDto();
-			usersController.ModelState.AddModelError("Name", string.Empty);
+			_usersController.ModelState.AddModelError("Name", string.Empty);
 			
-			var actionResult = usersController.CreateTeam(1, teamDto) as ObjectResult;
+			var actionResult = _usersController.CreateTeam(1, teamDto) as ObjectResult;
 			
 			Assert.NotNull(actionResult);
 			Assert.Equal(400, actionResult.StatusCode);
@@ -252,16 +293,13 @@ namespace SunLine.Manager.Tests.Controllers
 		[Fact]
 		public void CreateTeamMustReturnSuccessWhenTeamIsValid()
 		{
-			var unitOfWork = new Mock<IUnitOfWork>();
-			var userService = new Mock<IUserService>();
-			var teamService = new Mock<ITeamService>();
-			var usersController = new UsersController(unitOfWork.Object, userService.Object, teamService.Object);
-			userService.Setup(x => x.FindById(It.IsAny<int>())).Returns((int id) => 
+			CreateUserControllerMocks();
+			_userService.Setup(x => x.FindById(It.IsAny<int>())).Returns((int id) => 
 				new User() { Id = id, FirstName = "John", LastName = "Smith", TeamId = 0 }
 			);
 			var teamDto = new TeamDto { Name = "FC Barcelona" };
 			
-			var actionResult = usersController.CreateTeam(1, teamDto) as JsonResult;
+			var actionResult = _usersController.CreateTeam(1, teamDto) as JsonResult;
 			
 			Assert.NotNull(actionResult);
 			dynamic data = actionResult.Value;  

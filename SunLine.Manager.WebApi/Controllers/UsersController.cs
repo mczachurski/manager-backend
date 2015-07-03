@@ -1,6 +1,8 @@
 using Microsoft.AspNet.Mvc;
 using SunLine.Manager.Services.Core;
+using SunLine.Manager.Services.System;
 using SunLine.Manager.Entities.Core;
+using SunLine.Manager.Entities.System;
 using SunLine.Manager.Repositories.Infrastructure;
 using SunLine.Manager.WebApi.DataTransferObject;
 using SunLine.Manager.WebApi.HttpResult;
@@ -12,15 +14,47 @@ namespace SunLine.Manager.WebApi.Controllers
     [Route("api/[controller]")]
     public class UsersController : Controller
     {
+        private readonly IUnitOfWork _unitOfWork;
         private readonly IUserService _userService;
         private readonly ITeamService _teamService;
-        private readonly IUnitOfWork _unitOfWork;
+        private readonly IUserSessionService _userSessionService;
         
-        public UsersController(IUnitOfWork unitOfWork, IUserService userService, ITeamService teamService)
+        public UsersController(IUnitOfWork unitOfWork, IUserService userService, ITeamService teamService, IUserSessionService userSessionService)
         {
             _unitOfWork = unitOfWork;
             _userService = userService;
             _teamService = teamService;
+            _userSessionService = userSessionService;
+        }
+        
+        [HttpPost]
+        public IActionResult SignIn(SignInDto signInDto)
+        {
+            if(signInDto == null)
+            {
+                return this.HttpBadRequest("Sign in data not specified", DocumentationLinks.SignIn);
+            }
+            
+            if (!ModelState.IsValid)
+            {
+                return this.HttpBadModelState("Error in sign in data model", DocumentationLinks.SignIn);
+            }
+            
+            User user = _userService.FindByCredentials(signInDto.Email, signInDto.Password);
+            if(user == null)
+            {
+                return new JsonResult(ResultDto.CreateError("Email or password are incorrect", DocumentationLinks.SignIn));
+            }
+            
+            UserSession userSession = _userSessionService.CreateUserSession(user, "http://localhost/");
+            
+            var accessTokenDto = new AccessTokenDto
+            {
+                AccessToken = userSession.AccessToken.ToString(),
+                IsSuccess = true
+            };
+            
+            return new JsonResult(accessTokenDto);
         }
         
         [ServiceFilter(typeof(CheckAccessTokenAttribute))]
@@ -30,7 +64,7 @@ namespace SunLine.Manager.WebApi.Controllers
             var user = _userService.FindById(id);
             if(user == null)
             {
-                return this.HttpNotFound($"User ({id}) not exists", DocumentationLinks.Users);
+                return this.HttpNotFound($"User ({id}) not exists", DocumentationLinks.SignIn);
             }
             
             var userDto = new UserDto(user);
@@ -85,7 +119,7 @@ namespace SunLine.Manager.WebApi.Controllers
                 Email = userDto.Email  
             };
              
-            _userService.Create(user);
+            _userService.Create(user, userDto.Password);
             _unitOfWork.Commit();
             
             return new JsonResult(ResultDto.CreateSuccess());
