@@ -1,6 +1,18 @@
 {
     "version": "1.0.0-*",
-    "dependencies": {},
+    "dependencies": {
+        "xunit": "2.1.0-*",
+        "xunit.runner.dnx": "2.1.0-*",
+        "Moq": "4.2.1507.0118",
+        "SunLine.Manager.Entities": "1.0.0-*",
+        "SunLine.Manager.Repositories": "1.0.0-*",
+        "SunLine.Manager.Services": "1.0.0-*",
+        "SunLine.Manager.WebApi": "1.0.0-*"
+    },
+
+    "commands": {
+        "test": "xunit.runner.dnx"
+    },
 
     "frameworks": {
         "dnx451": {
