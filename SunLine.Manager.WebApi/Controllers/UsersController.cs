@@ -1,4 +1,3 @@
-using System.Linq;
 using Microsoft.AspNet.Mvc;
 using SunLine.Manager.Services.Core;
 using SunLine.Manager.Entities.Core;
@@ -28,7 +27,7 @@ namespace SunLine.Manager.WebApi.Controllers
             var user = _userService.FindById(id);
             if(user == null)
             {
-                return HttpNotFound(HttpErrorMessageDto.Create($"User ({id}) not exists"));
+                return this.HttpNotFound($"User ({id}) not exists", DocumentationLinks.Users);
             }
             
             return new JsonResult(user);
@@ -41,13 +40,13 @@ namespace SunLine.Manager.WebApi.Controllers
             var user = _userService.FindById(id);
             if(user == null)
             {
-                return HttpNotFound(HttpErrorMessageDto.Create($"User ({id}) not exists"));
+                return this.HttpNotFound($"User ({id}) not exists", DocumentationLinks.Users);
             }
             
             var team = _teamService.FindById(user.TeamId);
             if(user == null)
             {
-                return HttpNotFound(HttpErrorMessageDto.Create($"Team for user ({id}) not exists"));
+                return this.HttpNotFound($"Team for user ({id}) not exists", DocumentationLinks.Users);
             }
             
             return new JsonResult(new { Name = team.Name, UserId = team.UserId });
@@ -58,13 +57,12 @@ namespace SunLine.Manager.WebApi.Controllers
         {            
             if(userDto == null)
             {
-                return HttpBadRequest(HttpErrorMessageDto.Create($"User data not specified"));
+                return this.HttpBadRequest("User data not specified", DocumentationLinks.Users);
             }
             
             if (!ModelState.IsValid)
             {
-                var allErrors = ModelState.Values.SelectMany(v => v.Errors);;
-                return this.HttpBadRequest(allErrors);
+                return this.HttpBadModelState("Error in user data model", DocumentationLinks.Users);
             }
             
             var user = new User
@@ -86,24 +84,23 @@ namespace SunLine.Manager.WebApi.Controllers
         {
             if(teamDto == null)
             {
-                return HttpBadRequest(HttpErrorMessageDto.Create($"Team data not specified"));
+                return this.HttpBadRequest("Team data not specified", DocumentationLinks.Users);
             }
             
             var user = _userService.FindById(id);
             if(user == null)
             {
-                return HttpNotFound(HttpErrorMessageDto.Create($"User ({id}) not exists"));
-            }
-            
-            if (!ModelState.IsValid)
-            {
-                var allErrors = ModelState.Values.SelectMany(v => v.Errors);;
-                return this.HttpBadRequest(allErrors);
+                return this.HttpNotFound($"User ({id}) not exists", DocumentationLinks.Users);
             }
             
             if (user.TeamId > 0)
             {
-                return this.HttpForbidden(HttpErrorMessageDto.Create($"User already have a team"));
+                return this.HttpForbidden("User already have a team", DocumentationLinks.Users);
+            }
+            
+            if (!ModelState.IsValid)
+            {
+                return this.HttpBadModelState("Error in team data model", DocumentationLinks.Users);
             }
             
             var team = new Team
