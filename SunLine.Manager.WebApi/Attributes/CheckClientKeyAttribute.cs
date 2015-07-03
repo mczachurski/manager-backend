@@ -21,7 +21,7 @@ namespace SunLine.Manager.WebApi.Attributes
 			
 	        if (string.IsNullOrWhiteSpace(clientKeyString))
 	        {
-				var objectResult = new ObjectResult(HttpErrorMessageDto.Create("ClientKey is not provided", DocumentationLinks.ClientKey));
+				var objectResult = new ObjectResult(ErrorResponseDto.Create("ClientKey is not provided", DocumentationLinks.ClientKey));
 				objectResult.StatusCode = StatusCodes.Status403Forbidden;
 	            actionContext.Result = objectResult;
 				return;
@@ -30,7 +30,7 @@ namespace SunLine.Manager.WebApi.Attributes
 			Guid clientKey = Guid.Empty; 
 			if(!Guid.TryParse(clientKeyString, out clientKey))
 			{
-				var objectResult = new ObjectResult(HttpErrorMessageDto.Create("ClientKey have bad format", DocumentationLinks.ClientKey));
+				var objectResult = new ObjectResult(ErrorResponseDto.Create("ClientKey have bad format", DocumentationLinks.ClientKey));
 				objectResult.StatusCode = StatusCodes.Status403Forbidden;
 	            actionContext.Result = objectResult;
 				return;
@@ -38,7 +38,7 @@ namespace SunLine.Manager.WebApi.Attributes
 			
 			if(!_externalClientService.IsClientKeyValid(clientKey))
 			{
-				var objectResult = new ObjectResult(HttpErrorMessageDto.Create("ClientKey is not authorized", DocumentationLinks.ClientKey));
+				var objectResult = new ObjectResult(ErrorResponseDto.Create("ClientKey is not authorized", DocumentationLinks.ClientKey));
 				objectResult.StatusCode = StatusCodes.Status403Forbidden;
 	            actionContext.Result = objectResult;
 			}

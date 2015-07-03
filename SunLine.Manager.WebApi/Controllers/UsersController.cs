@@ -44,7 +44,7 @@ namespace SunLine.Manager.WebApi.Controllers
             User user = _userService.FindByCredentials(signInDto.Email, signInDto.Password);
             if(user == null)
             {
-                return new JsonResult(ResultDto.CreateError("Email or password are incorrect", DocumentationLinks.SignIn));
+                return new JsonResult(ErrorResponseDto.Create("Email or password are incorrect", DocumentationLinks.SignIn));
             }
             
             UserSession userSession = _userSessionService.CreateUserSession(user, "http://localhost/");
@@ -123,7 +123,7 @@ namespace SunLine.Manager.WebApi.Controllers
             _userService.Create(user, userDto.Password);
             _unitOfWork.Commit();
             
-            return new JsonResult(ResultDto.CreateSuccess());
+            return new JsonResult(SuccessResponseDto.Create());
         }
         
         [ServiceFilter(typeof(CheckAccessTokenAttribute))]
@@ -162,7 +162,7 @@ namespace SunLine.Manager.WebApi.Controllers
             _teamService.Create(team);
             _unitOfWork.Commit();
             
-            return new JsonResult(ResultDto.CreateSuccess());
+            return new JsonResult(SuccessResponseDto.Create());
         }
     }
 }
