@@ -27,8 +27,9 @@ namespace SunLine.Manager.WebApi.Controllers
             _userSessionService = userSessionService;
         }
         
+        [Route("SignIn")]
         [HttpPost]
-        public IActionResult SignIn(SignInDto signInDto)
+        public IActionResult SignIn([FromBody]SignInDto signInDto)
         {
             if(signInDto == null)
             {
@@ -47,6 +48,7 @@ namespace SunLine.Manager.WebApi.Controllers
             }
             
             UserSession userSession = _userSessionService.CreateUserSession(user, "http://localhost/");
+            _unitOfWork.Commit();
             
             var accessTokenDto = new AccessTokenDto
             {
@@ -92,7 +94,6 @@ namespace SunLine.Manager.WebApi.Controllers
             return new JsonResult(teamDto);
         }
         
-        [ServiceFilter(typeof(CheckAccessTokenAttribute))]
         [HttpPost]
         public IActionResult CreateUser([FromBody]UserDto userDto)
         {            
