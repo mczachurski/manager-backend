@@ -1,5 +1,6 @@
 using Microsoft.Data.Entity;
 using SunLine.Manager.Entities.Core;
+using SunLine.Manager.Entities.System;
 
 namespace SunLine.Manager.Repositories.Infrastructure
 {
@@ -20,6 +21,9 @@ namespace SunLine.Manager.Repositories.Infrastructure
         }            
 
         public virtual DbSet<User> Users { get; set; }
+        public virtual DbSet<Team> Teams { get; set; }
+        public virtual DbSet<UserSession> UserSessions { get; set; }
+        public virtual DbSet<ExternalClient> ExternalClients { get; set; }
 
         public DbSet<TEntity> GetDbSet<TEntity>() where TEntity : class
         {

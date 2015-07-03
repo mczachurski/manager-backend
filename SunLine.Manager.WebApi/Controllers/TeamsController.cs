@@ -3,9 +3,11 @@ using SunLine.Manager.Services.Core;
 using SunLine.Manager.Repositories.Infrastructure;
 using SunLine.Manager.WebApi.HttpResult;
 using SunLine.Manager.WebApi.DataTransferObject;
+using SunLine.Manager.WebApi.Attributes;
 
 namespace SunLine.Manager.WebApi.Controllers
 {
+    [ServiceFilter(typeof(CheckClientKeyAttribute))]
     [Route("api/[controller]")]
     public class TeamsController : Controller
     {
@@ -18,6 +20,7 @@ namespace SunLine.Manager.WebApi.Controllers
             _teamService = teamService;
         }
         
+        [ServiceFilter(typeof(CheckAccessTokenAttribute))]
         [HttpGet("{id}")]
         public IActionResult Get(int id)
         {

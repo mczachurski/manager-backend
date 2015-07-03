@@ -4,9 +4,11 @@ using SunLine.Manager.Entities.Core;
 using SunLine.Manager.Repositories.Infrastructure;
 using SunLine.Manager.WebApi.DataTransferObject;
 using SunLine.Manager.WebApi.HttpResult;
+using SunLine.Manager.WebApi.Attributes;
 
 namespace SunLine.Manager.WebApi.Controllers
 {
+    [ServiceFilter(typeof(CheckClientKeyAttribute))]
     [Route("api/[controller]")]
     public class UsersController : Controller
     {
@@ -21,6 +23,7 @@ namespace SunLine.Manager.WebApi.Controllers
             _teamService = teamService;
         }
         
+        [ServiceFilter(typeof(CheckAccessTokenAttribute))]
         [HttpGet("{id}")]
         public IActionResult GetUser(int id)
         {
@@ -34,10 +37,11 @@ namespace SunLine.Manager.WebApi.Controllers
             return new JsonResult(userDto);
         }
 
+        [ServiceFilter(typeof(CheckAccessTokenAttribute))]
         [Route("{id}/Team")]
         [HttpGet]
         public IActionResult GetUserTeam(int id)
-        {
+        {   
             var user = _userService.FindById(id);
             if(user == null)
             {
@@ -54,6 +58,7 @@ namespace SunLine.Manager.WebApi.Controllers
             return new JsonResult(teamDto);
         }
         
+        [ServiceFilter(typeof(CheckAccessTokenAttribute))]
         [HttpPost]
         public IActionResult CreateUser([FromBody]UserDto userDto)
         {            
@@ -86,6 +91,7 @@ namespace SunLine.Manager.WebApi.Controllers
             return new JsonResult(ResultDto.CreateSuccess());
         }
         
+        [ServiceFilter(typeof(CheckAccessTokenAttribute))]
         [Route("{id}/Team")]
         [HttpPost]
         public IActionResult CreateTeam(int id, [FromBody]TeamDto teamDto)
