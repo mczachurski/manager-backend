@@ -7,8 +7,7 @@ using Microsoft.Framework.DependencyInjection;
 using Microsoft.Framework.Configuration;
 using Microsoft.Framework.Logging;
 using SunLine.Manager.Repositories.Infrastructure;
-using SunLine.Manager.Repositories.Core;
-using SunLine.Manager.Services.Core;
+using SunLine.Manager.WebApi.DependencyInjection;
 
 namespace SunLine.Manager.WebApi
 {
@@ -41,11 +40,8 @@ namespace SunLine.Manager.WebApi
             
             services.AddMvc();
             
-            services.AddTransient<IUnitOfWork, UnitOfWork>();
-            services.AddTransient<IUserRepository, UserRepository>();
-            services.AddTransient<ITeamRepository, TeamRepository>();
-            services.AddTransient<IUserService, UserService>();
-            services.AddTransient<ITeamService, TeamService>();
+            var embeddedModule = new EmbeddedModule();
+            embeddedModule.Load(services);
         }
 
         public void Configure(IApplicationBuilder app, IHostingEnvironment env, ILoggerFactory loggerFactory)
