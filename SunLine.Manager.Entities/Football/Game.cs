@@ -15,8 +15,8 @@ namespace SunLine.Manager.Entities.Football
         public int HostTeamGoals { get; set; }
         public int GuestTeamGoals { get; set; }
         public League League { get; set; }
-		public GameResultEnum GameResultEnum { get; set; }
-        public GameStatusEnum GameStatusEnum { get; set; }
+		public GameResultEnum GameResult { get; set; }
+        public GameStatusEnum GameStatus { get; set; }
         public IList<GameEvent> GameEvents { get; set; }
         public int Attendance { get; set; }
         public Referee Referee { get; set; }

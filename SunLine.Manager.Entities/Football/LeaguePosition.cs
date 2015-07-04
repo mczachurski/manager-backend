@@ -1,6 +1,6 @@
 namespace SunLine.Manager.Entities.Football
 {
-    public class Position : BaseEntity
+    public class LeaguePosition : BaseEntity
     {        
         public League League { get; set; }
         public Team Team { get; set; }
