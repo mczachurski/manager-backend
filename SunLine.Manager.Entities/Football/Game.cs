@@ -45,7 +45,7 @@ namespace SunLine.Manager.Entities.Football
         public override string ToString()
         {
             string value = $"{HostTeam} - {GuestTeam}";
-            switch(GameStatusEnum)
+            switch(GameStatus)
             {
                 case GameStatusEnum.Scheduled:
                     value = $"{HostTeam} - {GuestTeam} (scheduled)";

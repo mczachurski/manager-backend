@@ -8,14 +8,14 @@ namespace SunLine.Manager.Entities.Football
 		public Team()
 		{
 			Players = new List<Player>();
-			Leagues = new List<Leagues>();
+			Leagues = new List<League>();
 		}
 		
 		public string Name { get; set; }
 		public User User { get; set; }
 		public int UserId { get; set; }
 		public IList<Player> Players { get; set; }
-		public Ilist<League> Leagues { get; set; }
+		public IList<League> Leagues { get; set; }
 		public League CurrentLeague { get; set;}
 		public LeaguePosition CurrentLeaguePosition { get; set; }
 		
