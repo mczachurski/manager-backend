@@ -3,10 +3,10 @@ using Xunit;
 using Moq;
 using SunLine.Manager.WebApi.Controllers;
 using SunLine.Manager.WebApi.DataTransferObject;
-using SunLine.Manager.Entities.Core;
-using SunLine.Manager.Repositories.Core;
+using SunLine.Manager.Entities.Football;
+using SunLine.Manager.Repositories.Football;
 using SunLine.Manager.Repositories.Infrastructure;
-using SunLine.Manager.Services.Core;
+using SunLine.Manager.Services.Football;
 
 namespace SunLine.Manager.Tests.Controllers
 {

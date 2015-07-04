@@ -1,5 +1,6 @@
 using  System;
-namespace SunLine.Manager.Entities.System
+
+namespace SunLine.Manager.Entities.Core
 {
 	public class ExternalClient : BaseEntity
 	{

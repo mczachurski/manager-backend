@@ -1,4 +1,4 @@
-namespace SunLine.Manager.Entities.Core
+namespace SunLine.Manager.Entities.Football
 {
 	public enum GameStatusEnum
 	{

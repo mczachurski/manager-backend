@@ -1,7 +1,7 @@
-using SunLine.Manager.Entities.Core;
+using SunLine.Manager.Entities.Football;
 using SunLine.Manager.Repositories.Infrastructure;
 
-namespace SunLine.Manager.Repositories.Core
+namespace SunLine.Manager.Repositories.Football
 {   
     public class TeamRepository : EntityRepository<Team>, ITeamRepository
     {

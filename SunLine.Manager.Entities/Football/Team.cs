@@ -1,6 +1,7 @@
 using System.Collections.Generic;
+using SunLine.Manager.Entities.Core;
 
-namespace SunLine.Manager.Entities.Core
+namespace SunLine.Manager.Entities.Football
 {
 	public class Team : BaseEntity
 	{

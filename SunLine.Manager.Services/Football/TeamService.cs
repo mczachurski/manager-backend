@@ -1,7 +1,7 @@
-using SunLine.Manager.Entities.Core;
-using SunLine.Manager.Repositories.Core;
+using SunLine.Manager.Entities.Football;
+using SunLine.Manager.Repositories.Football;
 
-namespace SunLine.Manager.Services.Core
+namespace SunLine.Manager.Services.Football
 {
 	public class TeamService : ITeamService
 	{

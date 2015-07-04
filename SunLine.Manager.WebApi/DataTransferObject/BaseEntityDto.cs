@@ -1,5 +1,4 @@
 using System;
-using System.ComponentModel.DataAnnotations;
 using SunLine.Manager.Entities;
 
 namespace SunLine.Manager.WebApi.DataTransferObject

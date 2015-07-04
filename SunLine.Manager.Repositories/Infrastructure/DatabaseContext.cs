@@ -1,6 +1,6 @@
 using Microsoft.Data.Entity;
 using SunLine.Manager.Entities.Core;
-using SunLine.Manager.Entities.System;
+using SunLine.Manager.Entities.Football;
 
 namespace SunLine.Manager.Repositories.Infrastructure
 {

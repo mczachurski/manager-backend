@@ -1,9 +1,9 @@
 using System;
 using System.Linq;
-using SunLine.Manager.Entities.System;
+using SunLine.Manager.Entities.Core;
 using SunLine.Manager.Repositories.Infrastructure;
 
-namespace SunLine.Manager.Repositories.System
+namespace SunLine.Manager.Repositories.Core
 {  
     public class UserSessionRepository : EntityRepository<UserSession>, IUserSessionRepository
     {

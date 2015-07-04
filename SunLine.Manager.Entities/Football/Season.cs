@@ -1,6 +1,6 @@
 using System.Collections.Generic;
 
-namespace SunLine.Manager.Entities.Core
+namespace SunLine.Manager.Entities.Football
 {
     public class Season : BaseEntity
     {

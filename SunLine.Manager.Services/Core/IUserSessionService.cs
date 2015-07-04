@@ -1,8 +1,8 @@
 using System;
 using SunLine.Manager.Entities.Core;
-using SunLine.Manager.Entities.System;
+using SunLine.Manager.Entities.Core;
 
-namespace SunLine.Manager.Services.System
+namespace SunLine.Manager.Services.Core
 {
 	public interface IUserSessionService
 	{

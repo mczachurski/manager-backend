@@ -1,8 +1,8 @@
 using Microsoft.AspNet.Mvc;
 using SunLine.Manager.Services.Core;
-using SunLine.Manager.Services.System;
+using SunLine.Manager.Services.Football;
 using SunLine.Manager.Entities.Core;
-using SunLine.Manager.Entities.System;
+using SunLine.Manager.Entities.Football;
 using SunLine.Manager.Repositories.Infrastructure;
 using SunLine.Manager.WebApi.DataTransferObject;
 using SunLine.Manager.WebApi.HttpResult;
@@ -40,6 +40,7 @@ namespace SunLine.Manager.WebApi.Controllers
             {
                 return this.HttpBadModelState("Error in sign in data model", DocumentationLinks.SignIn);
             }
+            
             
             User user = _userService.FindByCredentials(signInDto.Email, signInDto.Password);
             if(user == null)

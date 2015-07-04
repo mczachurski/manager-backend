@@ -1,7 +1,6 @@
 using System;
-using SunLine.Manager.Entities.Core;
 
-namespace SunLine.Manager.Entities.System
+namespace SunLine.Manager.Entities.Core
 {
     public class UserSession : BaseEntity
     {

@@ -1,3 +1,5 @@
+using SunLine.Manager.Entities.Football;
+
 namespace SunLine.Manager.Entities.Core
 {
     public class User : BaseEntity

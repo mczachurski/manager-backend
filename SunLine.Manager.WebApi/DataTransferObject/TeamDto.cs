@@ -1,5 +1,5 @@
 using System.ComponentModel.DataAnnotations;
-using SunLine.Manager.Entities.Core;
+using SunLine.Manager.Entities.Football;
 
 namespace SunLine.Manager.WebApi.DataTransferObject
 {

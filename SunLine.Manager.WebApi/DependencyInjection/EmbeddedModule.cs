@@ -1,9 +1,9 @@
 using Microsoft.Framework.DependencyInjection;
 using SunLine.Manager.Repositories.Core;
-using SunLine.Manager.Repositories.System;
+using SunLine.Manager.Repositories.Football;
 using SunLine.Manager.Repositories.Infrastructure;
 using SunLine.Manager.Services.Core;
-using SunLine.Manager.Services.System;
+using SunLine.Manager.Services.Football;
 using SunLine.Manager.WebApi.Attributes;
 
 namespace SunLine.Manager.WebApi.DependencyInjection

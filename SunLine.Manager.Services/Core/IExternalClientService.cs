@@ -1,6 +1,6 @@
 using System;
 
-namespace SunLine.Manager.Services.System
+namespace SunLine.Manager.Services.Core
 {
 	public interface IExternalClientService
 	{

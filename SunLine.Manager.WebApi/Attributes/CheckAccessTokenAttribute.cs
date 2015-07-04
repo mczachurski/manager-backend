@@ -1,7 +1,7 @@
 using System;
 using Microsoft.AspNet.Mvc;
 using Microsoft.AspNet.WebUtilities;
-using SunLine.Manager.Services.System;
+using SunLine.Manager.Services.Core;
 using SunLine.Manager.WebApi.DataTransferObject;
 
 namespace SunLine.Manager.WebApi.Attributes

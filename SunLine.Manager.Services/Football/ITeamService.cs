@@ -1,6 +1,6 @@
-using SunLine.Manager.Entities.Core;
+using SunLine.Manager.Entities.Football;
 
-namespace SunLine.Manager.Services.Core
+namespace SunLine.Manager.Services.Football
 {
 	public interface ITeamService
 	{
