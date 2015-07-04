@@ -34,7 +34,8 @@ namespace SunLine.Manager.Repositories.Infrastructure
         {           
             base.OnModelCreating(builder);
             
-            builder.Entity<User>().Reference(m => m.Team).InverseReference(x => x.User).ForeignKey<User>(x => x.TeamId); 
+            builder.Entity<User>().Reference(m => m.Team).InverseReference(x => x.User).ForeignKey<User>(x => x.TeamId);
+            builder.Entity<Team>().Reference(m => m.Stadium).InverseReference(x => x.Team).ForeignKey<Team>(x => x.StadiumId);
         }
     }
 }

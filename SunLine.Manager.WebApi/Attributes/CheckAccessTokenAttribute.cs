@@ -2,7 +2,7 @@ using System;
 using Microsoft.AspNet.Mvc;
 using Microsoft.AspNet.WebUtilities;
 using SunLine.Manager.Services.Core;
-using SunLine.Manager.WebApi.DataTransferObject;
+using SunLine.Manager.DataTransferObjects.Response;
 
 namespace SunLine.Manager.WebApi.Attributes
 {
@@ -21,7 +21,7 @@ namespace SunLine.Manager.WebApi.Attributes
 			
 	        if (string.IsNullOrWhiteSpace(accessTokenString))
 	        {
-				var objectResult = new ObjectResult(ErrorResponseDto.Create("AccessToken is not provided", DocumentationLinks.AccessToken));
+				var objectResult = new ObjectResult(ErrorDto.Create("AccessToken is not provided", DocumentationLinks.AccessToken));
 				objectResult.StatusCode = StatusCodes.Status401Unauthorized;
 	            actionContext.Result = objectResult;
 				return;
@@ -30,7 +30,7 @@ namespace SunLine.Manager.WebApi.Attributes
 			Guid accessToken = Guid.Empty; 
 			if(!Guid.TryParse(accessTokenString, out accessToken))
 			{
-				var objectResult = new ObjectResult(ErrorResponseDto.Create("AccessToken have bad format", DocumentationLinks.ClientKey));
+				var objectResult = new ObjectResult(ErrorDto.Create("AccessToken have bad format", DocumentationLinks.ClientKey));
 				objectResult.StatusCode = StatusCodes.Status401Unauthorized;
 	            actionContext.Result = objectResult;
 				return;
@@ -38,7 +38,7 @@ namespace SunLine.Manager.WebApi.Attributes
 			
 			if(!_userSessionService.IsActiveAccessToken(accessToken))
 			{
-				var objectResult = new ObjectResult(ErrorResponseDto.Create("AccessToken is not authorized", DocumentationLinks.ClientKey));
+				var objectResult = new ObjectResult(ErrorDto.Create("AccessToken is not authorized", DocumentationLinks.ClientKey));
 				objectResult.StatusCode = StatusCodes.Status401Unauthorized;
 	            actionContext.Result = objectResult;
 			}

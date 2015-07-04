@@ -1,15 +1,22 @@
 using SunLine.Manager.Entities.Core;
+using SunLine.Manager.Entities.Football;
 using SunLine.Manager.Repositories.Core;
+using SunLine.Manager.Repositories.Football;
+using SunLine.Manager.DataTransferObjects.Request;
 
 namespace SunLine.Manager.Services.Core
 {
 	public class UserService : IUserService
 	{
 		private readonly IUserRepository _userRepository;
+		private readonly ITeamRepository _teamRepository;
+		private readonly IStadiumRepository _stadiumRepository;
 		
-		public UserService(IUserRepository userRepository)
+		public UserService(IUserRepository userRepository, ITeamRepository teamRepository, IStadiumRepository stadiumRepository)
 		{
 			_userRepository = userRepository;
+			_teamRepository = teamRepository;
+			_stadiumRepository = stadiumRepository;
 		}
 		
 		public User FindById(int id)
@@ -33,10 +40,36 @@ namespace SunLine.Manager.Services.Core
 			return user;
 		}
 		
-		public User Create(User user, string password)
+		public User Create(CreateUserDto createUserDto)
 		{
-			CalculatePasswordHash(user, password);
-			return _userRepository.Create(user);
+            var user = new User
+            {
+                FirstName = createUserDto.FirstName,
+                LastName = createUserDto.LastName,
+                Email = createUserDto.Email,
+				Password = CalculatePasswordHash(createUserDto.Password)
+            };
+			user = _userRepository.Create(user);
+			
+            var team = new Team
+            {
+                Name = createUserDto.TeamName,
+                User = user,
+                UserId = user.Id
+            };
+			team = _teamRepository.Create(team);
+             
+            var stadium = new Stadium
+            {
+                Name = createUserDto.StadiumName,
+                Capacity = 5000,
+				Team = team,
+				TeamId = team.Id
+            };			
+			
+			stadium = _stadiumRepository.Create(stadium);
+			
+			return user;
 		}
 		
 		public User FindByEmail(string email)
@@ -44,10 +77,10 @@ namespace SunLine.Manager.Services.Core
 			return _userRepository.FindByEmail(email);
 		}
 		
-		private void CalculatePasswordHash(User user, string password)
+		private string CalculatePasswordHash(string password)
 		{
 			var passwordHash = PasswordHash.CreateHash(password);
-			user.Password = passwordHash;
+			return passwordHash;
 		}
 	}
 }

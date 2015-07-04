@@ -875,6 +875,11 @@
           "lib/net45/Microsoft.CodeAnalysis.CSharp.dll": {}
         }
       },
+      "Microsoft.CSharp/4.0.0-beta-23019": {
+        "frameworkAssemblies": [
+          "Microsoft.CSharp"
+        ]
+      },
       "Microsoft.Framework.ApplicationHost/1.0.0-beta5": {
         "dependencies": {
           "Microsoft.Framework.Runtime": "1.0.0-beta5",
@@ -1450,6 +1455,14 @@
           "lib/portable-net45+win+wpa81+wp80/Remotion.Linq.dll": {}
         }
       },
+      "System.Collections/4.0.10-beta-23019": {
+        "dependencies": {
+          "System.Runtime": "4.0.0-beta-23019"
+        },
+        "compile": {
+          "ref/dotnet/System.Collections.dll": {}
+        }
+      },
       "System.Collections.Immutable/1.1.36": {
         "compile": {
           "lib/portable-net45+win8+wp8+wpa81/System.Collections.Immutable.dll": {}
@@ -1459,6 +1472,7 @@
         }
       },
       "System.IO/4.0.0-beta-23019": {},
+      "System.Linq/4.0.0-beta-23019": {},
       "System.Reflection.Metadata/1.0.21": {
         "dependencies": {
           "System.Collections.Immutable": "1.1.36"
@@ -1470,7 +1484,11 @@
           "lib/portable-net45+win8/System.Reflection.Metadata.dll": {}
         }
       },
-      "System.Runtime/4.0.0-beta-23019": {},
+      "System.Runtime/4.0.20-beta-23019": {
+        "compile": {
+          "ref/dotnet/System.Runtime.dll": {}
+        }
+      },
       "System.Security.Cryptography.Encryption/4.0.0-beta-23019": {
         "dependencies": {
           "System.Runtime": "4.0.0-beta-23019",
@@ -1489,6 +1507,15 @@
         },
         "compile": {
           "ref/dotnet/System.Security.Cryptography.RSA.dll": {}
+        }
+      },
+      "System.Threading/4.0.10-beta-23019": {
+        "dependencies": {
+          "System.Runtime": "4.0.0-beta-23019",
+          "System.Threading.Tasks": "4.0.0-beta-23019"
+        },
+        "compile": {
+          "ref/dotnet/System.Threading.dll": {}
         }
       },
       "System.Threading.Tasks/4.0.0-beta-23019": {},
@@ -6199,21 +6226,6 @@
         "runtimes/win8-aot/lib/netcore50/System.Resources.ResourceManager.dll"
       ]
     },
-    "System.Runtime/4.0.0-beta-23019": {
-      "sha512": "BUB/5CSzjDRQlifthFztT1eWmnnb2QCK2WKd0kxAt8ytB+2oXiVqpSvcbtzRsidp8wGdG51fyolfiznodSIX9A==",
-      "files": [
-        "License.rtf",
-        "System.Runtime.4.0.0-beta-23019.nupkg",
-        "System.Runtime.4.0.0-beta-23019.nupkg.sha512",
-        "System.Runtime.nuspec",
-        "lib/net45/_._",
-        "lib/win8/_._",
-        "ref/dotnet/System.Runtime.dll",
-        "ref/net45/_._",
-        "ref/netcore50/System.Runtime.dll",
-        "ref/win8/_._"
-      ]
-    },
     "System.Runtime/4.0.20-beta-23019": {
       "sha512": "74Ba0KeqUX4ziLuALD5zSDWbYFg2Hw8IloKILkm8UHe5vkFCzHIb9tARXLClDjTxXQ/G/hyXgV8N0YlKHX7dAA==",
       "files": [
@@ -6839,7 +6851,8 @@
       "SunLine.Manager.Entities >= 1.0.0-*",
       "SunLine.Manager.Repositories >= 1.0.0-*",
       "SunLine.Manager.Services >= 1.0.0-*",
-      "SunLine.Manager.WebApi >= 1.0.0-*"
+      "SunLine.Manager.WebApi >= 1.0.0-*",
+      "SunLine.Manager.DataTransferObjects >= 1.0.0-*"
     ],
     "DNX,Version=v4.5.1": [],
     "DNXCore,Version=v5.0": [

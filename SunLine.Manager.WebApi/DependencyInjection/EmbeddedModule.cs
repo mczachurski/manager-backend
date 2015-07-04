@@ -33,6 +33,7 @@ namespace SunLine.Manager.WebApi.DependencyInjection
 		{
             services.AddTransient<IUserRepository, UserRepository>();
             services.AddTransient<ITeamRepository, TeamRepository>();
+			services.AddTransient<IStadiumRepository, StadiumRepository>();
 			services.AddTransient<IUserSessionRepository, UserSessionRepository>();
 			services.AddTransient<IExternalClientRepository, ExternalClientRepository>();
 		}
@@ -41,6 +42,7 @@ namespace SunLine.Manager.WebApi.DependencyInjection
 		{
             services.AddTransient<IUserService, UserService>();
             services.AddTransient<ITeamService, TeamService>();
+			services.AddTransient<IStadiumService, StadiumService>();
 			services.AddTransient<IUserSessionService, UserSessionService>();
 			services.AddTransient<IExternalClientService, ExternalClientService>();
 		}

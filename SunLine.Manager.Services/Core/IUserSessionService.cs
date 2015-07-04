@@ -1,6 +1,5 @@
 using System;
 using SunLine.Manager.Entities.Core;
-using SunLine.Manager.Entities.Core;
 
 namespace SunLine.Manager.Services.Core
 {

@@ -3,7 +3,8 @@ using Microsoft.AspNet.Mvc;
 using Xunit;
 using Moq;
 using SunLine.Manager.WebApi.Controllers;
-using SunLine.Manager.WebApi.DataTransferObject;
+using SunLine.Manager.DataTransferObjects.Request;
+using SunLine.Manager.DataTransferObjects.Response;
 using SunLine.Manager.Entities.Core;
 using SunLine.Manager.Entities.Football;
 using SunLine.Manager.Repositories.Core;
@@ -184,10 +185,10 @@ namespace SunLine.Manager.Tests.Controllers
 		public void CreateUserMustReturnBadRequestWhenUserModelStateIsInvalid()
 		{
 			CreateUserControllerMocks();
-			var userDto = new UserDto { FirstName = "John", LastName = "Smith", Email = "bademailformat" };
+			var createUserDto = new CreateUserDto { FirstName = "John", LastName = "Smith", Email = "bademailformat" };
 			_usersController.ModelState.AddModelError("Email", "Bad email format");
 			
-			var actionResult = _usersController.CreateUser(userDto) as ObjectResult;
+			var actionResult = _usersController.CreateUser(createUserDto) as ObjectResult;
 			
 			Assert.NotNull(actionResult);
 			Assert.Equal(400, actionResult.StatusCode);
@@ -201,12 +202,12 @@ namespace SunLine.Manager.Tests.Controllers
 		public void CreateUserMustReturnForbiddenWhenUserWithThisSameEmailExists()
 		{
 			CreateUserControllerMocks();
-			var userDto = new UserDto { FirstName = "John", LastName = "Smith", Email = "johnsmith@email.com" };
+			var createUserDto = new CreateUserDto { FirstName = "John", LastName = "Smith", Email = "johnsmith@email.com" };
 			_userService.Setup(x => x.FindByEmail(It.IsAny<string>())).Returns((string email) => 
 				new User() { Id = 1, FirstName = "John", LastName = "Smith", TeamId = 1, Email = email }
 			);
 			
-			var actionResult = _usersController.CreateUser(userDto) as ObjectResult;
+			var actionResult = _usersController.CreateUser(createUserDto) as ObjectResult;
 			
 			Assert.NotNull(actionResult);
 			Assert.Equal(403, actionResult.StatusCode);
@@ -218,93 +219,13 @@ namespace SunLine.Manager.Tests.Controllers
 		public void CreateUserMustReturnSuccessWhenUserIsValid()
 		{
 			CreateUserControllerMocks();
-			var userDto = new UserDto { FirstName = "John", LastName = "Smith", Email = "email@email.com" };
+			var createUserDto = new CreateUserDto { FirstName = "John", LastName = "Smith", Email = "email@email.com" };
 			
-			var actionResult = _usersController.CreateUser(userDto) as JsonResult;
+			var actionResult = _usersController.CreateUser(createUserDto) as JsonResult;
 			
 			Assert.NotNull(actionResult);
 			dynamic data = actionResult.Value;  
     		Assert.Equal(true, data.IsSuccess);   
-		}
-		
-		[Fact]
-		public void CreateTeamMustReturnBadRequestWhenTeamDataIsEmpty()
-		{
-			CreateUserControllerMocks();
-			
-			var actionResult = _usersController.CreateTeam(1, null) as ObjectResult;
-			
-			Assert.NotNull(actionResult);
-			Assert.Equal(400, actionResult.StatusCode);
-			dynamic data = actionResult.Value;  
-    		Assert.Equal("Team data not specified", data.Message);
-		}
-		
-		[Fact]
-		public void CreateTeamMustReturnNotFoundWhenUserNotExists()
-		{
-			CreateUserControllerMocks();
-			var teamDto = new TeamDto();
-			
-			var actionResult = _usersController.CreateTeam(0, teamDto) as ObjectResult;
-			
-			Assert.NotNull(actionResult);
-			Assert.Equal(404, actionResult.StatusCode);
-			dynamic data = actionResult.Value;  
-    		Assert.Equal("User (0) not exists", data.Message);
-		}
-		
-		[Fact]
-		public void CreateTeamMustReturnForbiddenWhenUserAlreadyHasTeam()
-		{
-			CreateUserControllerMocks();
-			_userService.Setup(x => x.FindById(It.IsAny<int>())).Returns((int id) => 
-				new User() { Id = id, FirstName = "John", LastName = "Smith", TeamId = 1 }
-			);
-			var teamDto = new TeamDto();
-			
-			var actionResult = _usersController.CreateTeam(1, teamDto) as ObjectResult;
-			
-			Assert.NotNull(actionResult);
-			Assert.Equal(403, actionResult.StatusCode);
-			dynamic data = actionResult.Value;  
-    		Assert.Equal("User already have a team", data.Message);
-		}
-		
-		[Fact]
-		public void CreateTeamMustReturnBadRequestWhenTeamModelStateIsInvalid()
-		{
-			CreateUserControllerMocks();
-			_userService.Setup(x => x.FindById(It.IsAny<int>())).Returns((int id) => 
-				new User() { Id = id, FirstName = "John", LastName = "Smith", TeamId = 0 }
-			);
-			var teamDto = new TeamDto();
-			_usersController.ModelState.AddModelError("Name", string.Empty);
-			
-			var actionResult = _usersController.CreateTeam(1, teamDto) as ObjectResult;
-			
-			Assert.NotNull(actionResult);
-			Assert.Equal(400, actionResult.StatusCode);
-			Assert.NotNull(actionResult.Value);
-			dynamic data = actionResult.Value;  
-    		Assert.Equal("Error in team data model", data.Message);
-			Assert.Equal("Name", data.ModelErrors[0].FieldName);  
-		}
-		
-		[Fact]
-		public void CreateTeamMustReturnSuccessWhenTeamIsValid()
-		{
-			CreateUserControllerMocks();
-			_userService.Setup(x => x.FindById(It.IsAny<int>())).Returns((int id) => 
-				new User() { Id = id, FirstName = "John", LastName = "Smith", TeamId = 0 }
-			);
-			var teamDto = new TeamDto { Name = "FC Barcelona" };
-			
-			var actionResult = _usersController.CreateTeam(1, teamDto) as JsonResult;
-			
-			Assert.NotNull(actionResult);
-			dynamic data = actionResult.Value;  
-    		Assert.Equal(true, data.IsSuccess);
 		}
 	}
 }

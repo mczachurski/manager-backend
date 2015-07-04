@@ -2,9 +2,9 @@ using Microsoft.AspNet.Mvc;
 using SunLine.Manager.Services.Core;
 using SunLine.Manager.Services.Football;
 using SunLine.Manager.Entities.Core;
-using SunLine.Manager.Entities.Football;
 using SunLine.Manager.Repositories.Infrastructure;
-using SunLine.Manager.WebApi.DataTransferObject;
+using SunLine.Manager.DataTransferObjects.Response;
+using SunLine.Manager.DataTransferObjects.Request;
 using SunLine.Manager.WebApi.HttpResult;
 using SunLine.Manager.WebApi.Attributes;
 
@@ -19,7 +19,11 @@ namespace SunLine.Manager.WebApi.Controllers
         private readonly ITeamService _teamService;
         private readonly IUserSessionService _userSessionService;
         
-        public UsersController(IUnitOfWork unitOfWork, IUserService userService, ITeamService teamService, IUserSessionService userSessionService)
+        public UsersController(
+            IUnitOfWork unitOfWork, 
+            IUserService userService, 
+            ITeamService teamService, 
+            IUserSessionService userSessionService)
         {
             _unitOfWork = unitOfWork;
             _userService = userService;
@@ -45,7 +49,7 @@ namespace SunLine.Manager.WebApi.Controllers
             User user = _userService.FindByCredentials(signInDto.Email, signInDto.Password);
             if(user == null)
             {
-                return new JsonResult(ErrorResponseDto.Create("Email or password are incorrect", DocumentationLinks.SignIn));
+                return new JsonResult(ErrorDto.Create("Email or password are incorrect", DocumentationLinks.SignIn));
             }
             
             UserSession userSession = _userSessionService.CreateUserSession(user, "http://localhost/");
@@ -96,9 +100,9 @@ namespace SunLine.Manager.WebApi.Controllers
         }
         
         [HttpPost]
-        public IActionResult CreateUser([FromBody]UserDto userDto)
+        public IActionResult CreateUser([FromBody]CreateUserDto createUserDto)
         {            
-            if(userDto == null)
+            if(createUserDto == null)
             {
                 return this.HttpBadRequest("User data not specified", DocumentationLinks.Users);
             }
@@ -108,62 +112,16 @@ namespace SunLine.Manager.WebApi.Controllers
                 return this.HttpBadModelState("Error in user data model", DocumentationLinks.Users);
             }
             
-            var userAlreadyExists = _userService.FindByEmail(userDto.Email);
+            var userAlreadyExists = _userService.FindByEmail(createUserDto.Email);
             if(userAlreadyExists != null)
             {
                 return this.HttpForbidden("User with this email already exists", DocumentationLinks.Users);   
             }
             
-            var user = new User
-            {
-                FirstName = userDto.FirstName,
-                LastName = userDto.LastName,
-                Email = userDto.Email  
-            };
-             
-            _userService.Create(user, userDto.Password);
+            _userService.Create(createUserDto);
             _unitOfWork.Commit();
             
-            return new JsonResult(SuccessResponseDto.Create());
-        }
-        
-        [ServiceFilter(typeof(CheckAccessTokenAttribute))]
-        [Route("{id}/Team")]
-        [HttpPost]
-        public IActionResult CreateTeam(int id, [FromBody]TeamDto teamDto)
-        {
-            if(teamDto == null)
-            {
-                return this.HttpBadRequest("Team data not specified", DocumentationLinks.Users);
-            }
-            
-            var user = _userService.FindById(id);
-            if(user == null)
-            {
-                return this.HttpNotFound($"User ({id}) not exists", DocumentationLinks.Users);
-            }
-            
-            if (user.TeamId > 0)
-            {
-                return this.HttpForbidden("User already have a team", DocumentationLinks.Users);
-            }
-            
-            if (!ModelState.IsValid)
-            {
-                return this.HttpBadModelState("Error in team data model", DocumentationLinks.Users);
-            }
-            
-            var team = new Team
-            {
-                Name = teamDto.Name,
-                User = user,
-                UserId = user.Id
-            };
-                        
-            _teamService.Create(team);
-            _unitOfWork.Commit();
-            
-            return new JsonResult(SuccessResponseDto.Create());
+            return new JsonResult(SuccessDto.Create());
         }
     }
 }

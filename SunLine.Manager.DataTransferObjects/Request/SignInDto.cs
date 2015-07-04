@@ -1,6 +1,6 @@
 using System.ComponentModel.DataAnnotations;
 
-namespace SunLine.Manager.WebApi.DataTransferObject
+namespace SunLine.Manager.DataTransferObjects.Request
 {
 	public class SignInDto
 	{

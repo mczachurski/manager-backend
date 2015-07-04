@@ -2,9 +2,9 @@ using SunLine.Manager.Entities.Football;
 
 namespace SunLine.Manager.Services.Football
 {
-	public interface ITeamService
+	public interface IStadiumService
 	{
-		Team FindById(int id);
-		void Update(Team team);
+		Stadium FindById(int id);
+		void Update(Stadium stadium);
 	}
 }

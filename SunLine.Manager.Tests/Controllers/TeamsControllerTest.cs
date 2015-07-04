@@ -2,7 +2,6 @@ using Microsoft.AspNet.Mvc;
 using Xunit;
 using Moq;
 using SunLine.Manager.WebApi.Controllers;
-using SunLine.Manager.WebApi.DataTransferObject;
 using SunLine.Manager.Entities.Football;
 using SunLine.Manager.Repositories.Football;
 using SunLine.Manager.Repositories.Infrastructure;

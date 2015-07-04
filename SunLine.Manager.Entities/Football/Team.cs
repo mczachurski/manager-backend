@@ -18,6 +18,9 @@ namespace SunLine.Manager.Entities.Football
 		public IList<League> Leagues { get; set; }
 		public League CurrentLeague { get; set;}
 		public LeaguePosition CurrentLeaguePosition { get; set; }
+		public double Budget { get; set; }
+		public Stadium Stadium { get; set; }
+		public int StadiumId { get; set; }
 		
 		public override string ToString()
 		{

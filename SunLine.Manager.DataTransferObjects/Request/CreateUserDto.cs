@@ -1,26 +1,20 @@
 using System.ComponentModel.DataAnnotations;
-using SunLine.Manager.Entities.Core;
 
-namespace SunLine.Manager.WebApi.DataTransferObject
+namespace SunLine.Manager.DataTransferObjects.Request
 {
-	public class UserDto : BaseEntityDto
-	{
-		public UserDto()
-		{
-		}
-		
-		public UserDto(User user) : base(user)
-		{
-			FirstName = user.FirstName;
-			LastName = user.LastName;
-			Email = user.Email;
-		}
-		
+	public class CreateUserDto
+	{	
 		[Required(ErrorMessage = "Firstname is required")]
 		public string FirstName { get ; set; }
 		
 		[Required(ErrorMessage = "Lastname is required")]
 		public string LastName { get ; set; }
+		
+		[Required(ErrorMessage = "TeamName is required")]
+		public string TeamName { get ; set; }
+		
+		[Required(ErrorMessage = "StadiumName is required")]
+		public string StadiumName { get ; set; }
 		
 		[Required(ErrorMessage = "Email is required")]
 		[EmailAddress(ErrorMessage = "Email has bad format")]

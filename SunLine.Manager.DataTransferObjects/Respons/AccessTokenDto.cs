@@ -1,4 +1,4 @@
-namespace SunLine.Manager.WebApi.DataTransferObject
+namespace SunLine.Manager.DataTransferObjects.Response
 {
 	public class AccessTokenDto
 	{

@@ -17,11 +17,6 @@ namespace SunLine.Manager.Services.Football
 			return _teamRepository.FindById(id);
 		}
 		
-		public Team Create(Team team)
-		{
-			return _teamRepository.Create(team);
-		}
-		
 		public void Update(Team team)
 		{
 			_teamRepository.Update(team);

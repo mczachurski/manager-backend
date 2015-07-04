@@ -7,7 +7,8 @@
         "SunLine.Manager.Entities": "1.0.0-*",
         "SunLine.Manager.Repositories": "1.0.0-*",
         "SunLine.Manager.Services": "1.0.0-*",
-        "SunLine.Manager.WebApi": "1.0.0-*"
+        "SunLine.Manager.WebApi": "1.0.0-*",
+        "SunLine.Manager.DataTransferObjects": "1.0.0-*"
     },
 
     "commands": {
