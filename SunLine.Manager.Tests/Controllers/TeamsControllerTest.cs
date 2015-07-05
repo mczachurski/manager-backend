@@ -11,14 +11,21 @@ namespace SunLine.Manager.Tests.Controllers
 {
 	public class TeamsControllerTest
 	{
+		Mock<ITeamService> _teamService;
+		TeamsController _teamsController;
+		
+		private void CreateTeamsControllerMocks()
+		{
+			_teamService = new Mock<ITeamService>();
+			_teamsController = new TeamsController(_teamService.Object);
+		}
+		
 		[Fact]
 		public void GetTeamMustReturnNotFoundWhenTeamNotExists()
 		{
-			var unitOfWork = new Mock<IUnitOfWork>();
-			var teamService = new Mock<ITeamService>();
-			var teamsController = new TeamsController(unitOfWork.Object, teamService.Object);
+			CreateTeamsControllerMocks();
 			
-			var actionResult = teamsController.Get(1) as ObjectResult;
+			var actionResult = _teamsController.Get(1) as ObjectResult;
 			
 			Assert.NotNull(actionResult);
 			Assert.Equal(404, actionResult.StatusCode);
@@ -27,14 +34,12 @@ namespace SunLine.Manager.Tests.Controllers
 		}
 		
 		[Fact]
-		public void GetUserMustReturnTeamDataWhenTeamExists()
+		public void GetTeamMustReturnTeamDataWhenTeamExists()
 		{
-			var unitOfWork = new Mock<IUnitOfWork>();
-			var teamService = new Mock<ITeamService>();
-			var teamsController = new TeamsController(unitOfWork.Object, teamService.Object);
-			teamService.Setup(x => x.FindById(It.IsAny<int>())).Returns((int id) => new Team() { Id = id, Name = "FC Barcelona" });
+			CreateTeamsControllerMocks();
+			_teamService.Setup(x => x.FindById(It.IsAny<int>())).Returns((int id) => new Team() { Id = id, Name = "FC Barcelona" });
 			
-			var actionResult = teamsController.Get(1) as JsonResult;
+			var actionResult = _teamsController.Get(1) as JsonResult;
 			
 			Assert.NotNull(actionResult);
 			dynamic data = actionResult.Value;  

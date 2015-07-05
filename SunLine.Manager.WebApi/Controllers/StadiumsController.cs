@@ -9,27 +9,27 @@ namespace SunLine.Manager.WebApi.Controllers
 {
     [ServiceFilter(typeof(CheckClientKeyAttribute))]
     [Route("api/[controller]")]
-    public class TeamsController : Controller
+    public class StadiumsController : Controller
     {
-        private readonly ITeamService _teamService;
+        private readonly IStadiumService _stadiumService;
         
-        public TeamsController(ITeamService teamService)
+        public StadiumsController(IStadiumService stadiumService)
         {
-            _teamService = teamService;
+            _stadiumService = stadiumService;
         }
         
         [ServiceFilter(typeof(CheckAccessTokenAttribute))]
         [HttpGet("{id}")]
         public IActionResult Get(int id)
         {
-            var team = _teamService.FindById(id);
-            if(team == null)
+            var stadium = _stadiumService.FindById(id);
+            if(stadium == null)
             {
-                return this.HttpNotFound($"Team ({id}) not exists", DocumentationLinks.Teams);
+                return this.HttpNotFound($"Stadium ({id}) not exists", DocumentationLinks.Stadiums);
             }
             
-            var teamDto = new TeamDto(team);
-            return new JsonResult(teamDto);
+            var stadiumDto = new StadiumDto(stadium);
+            return new JsonResult(stadiumDto);
         }
     }
 }

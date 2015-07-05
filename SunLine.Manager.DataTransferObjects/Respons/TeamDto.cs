@@ -8,9 +8,11 @@ namespace SunLine.Manager.DataTransferObjects.Response
 		{
 			Name = team.Name;
 			UserId = team.UserId;
+			StadiumId = team.StadiumId;
 		}
 		
 		public string Name { get ; set; }		
 		public int UserId { get; set; }
+		public int StadiumId { get; set; }
 	}
 }

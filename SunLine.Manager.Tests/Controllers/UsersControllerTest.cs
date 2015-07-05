@@ -21,6 +21,7 @@ namespace SunLine.Manager.Tests.Controllers
 		private Mock<IUserService> _userService;
 		private Mock<ITeamService> _teamService;
 		private Mock<IUserSessionService> _userSessionService;
+		private Mock<IStadiumService> _stadiumService;
 		private UsersController _usersController;
 		
 		private void CreateUserControllerMocks()
@@ -29,7 +30,9 @@ namespace SunLine.Manager.Tests.Controllers
 			_userService = new Mock<IUserService>();
 			_teamService = new Mock<ITeamService>();
 			_userSessionService = new Mock<IUserSessionService>();
-			_usersController = new UsersController(_unitOfWork.Object, _userService.Object, _teamService.Object, _userSessionService.Object);
+			_stadiumService = new Mock<IStadiumService>();
+			_usersController = new UsersController(_unitOfWork.Object, _userService.Object, _teamService.Object, 
+				_userSessionService.Object, _stadiumService.Object);
 		}
 		
 		[Fact]
@@ -154,7 +157,7 @@ namespace SunLine.Manager.Tests.Controllers
 		{
 			CreateUserControllerMocks();
 			_userService.Setup(x => x.FindById(It.IsAny<int>())).Returns((int id) => 
-				new User() { Id = id, FirstName = "John", LastName = "Smith", TeamId = 1 }
+				new User() { Id = id, FirstName = "John", LastName = "Smith", TeamId = 2 }
 			);
 			_teamService.Setup(x => x.FindById(It.IsAny<int>())).Returns((int id) =>
 				new Team { Id = id, Name = "FC Barcelona" }
@@ -164,8 +167,72 @@ namespace SunLine.Manager.Tests.Controllers
 			
 			Assert.NotNull(actionResult);
 			dynamic data = actionResult.Value;  
-    		Assert.Equal(1, data.Id);
+    		Assert.Equal(2, data.Id);
 			Assert.Equal("FC Barcelona", data.Name);   
+		}
+		
+		[Fact]
+		public void GetUserStadiumMustReturnNotFoundWhenUserNotExists()
+		{
+			CreateUserControllerMocks();
+			
+			var actionResult = _usersController.GetUserStadium(1) as ObjectResult;
+			
+			Assert.NotNull(actionResult);
+			Assert.Equal(404, actionResult.StatusCode);
+			dynamic data = actionResult.Value;  
+    		Assert.Equal("User (1) not exists", data.Message);
+		}
+		
+		[Fact]
+		public void GetUserStadiumMustReturnNotFoundWhenUserTeamNotExists()
+		{
+			CreateUserControllerMocks();
+			_userService.Setup(x => x.FindById(It.IsAny<int>())).Returns((int id) => new User() { Id = id, FirstName = "John", LastName = "Smith" });
+			
+			var actionResult = _usersController.GetUserStadium(1) as ObjectResult;
+			
+			Assert.NotNull(actionResult);
+			Assert.Equal(404, actionResult.StatusCode);
+			dynamic data = actionResult.Value;  
+    		Assert.Equal("Team for user (1) not exists", data.Message);
+		}
+		
+		[Fact]
+		public void GetUserStadiumMustReturnNotFoundWhenUserStadiumNotExists()
+		{
+			CreateUserControllerMocks();
+			_userService.Setup(x => x.FindById(It.IsAny<int>())).Returns((int id) => new User() { Id = id, FirstName = "John", LastName = "Smith", TeamId = 1 });
+			_teamService.Setup(x => x.FindById(It.IsAny<int>())).Returns((int id) => new Team() { Id = id, Name = "FC Barcelona", StadiumId = 0 });
+			
+			var actionResult = _usersController.GetUserStadium(1) as ObjectResult;
+			
+			Assert.NotNull(actionResult);
+			Assert.Equal(404, actionResult.StatusCode);
+			dynamic data = actionResult.Value;  
+    		Assert.Equal("Stadium for user (1) not exists", data.Message);
+		}
+		
+		[Fact]
+		public void GetUserTeamMustReturnStadiumWhenUserStadiumExists()
+		{
+			CreateUserControllerMocks();
+			_userService.Setup(x => x.FindById(It.IsAny<int>())).Returns((int id) => 
+				new User() { Id = id, FirstName = "John", LastName = "Smith", TeamId = 2 }
+			);
+			_teamService.Setup(x => x.FindById(It.IsAny<int>())).Returns((int id) =>
+				new Team { Id = id, Name = "FC Barcelona", StadiumId = 3 }
+			);
+			_stadiumService.Setup(x => x.FindById(It.IsAny<int>())).Returns((int id) => 
+				new Stadium() { Id = id, Name = "Super Stadium" }
+			);
+			
+			var actionResult = _usersController.GetUserStadium(1) as JsonResult;
+			
+			Assert.NotNull(actionResult);
+			dynamic data = actionResult.Value;  
+    		Assert.Equal(3, data.Id);
+			Assert.Equal("Super Stadium", data.Name);   
 		}
 		
 		[Fact]

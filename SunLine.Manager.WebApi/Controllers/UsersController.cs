@@ -18,17 +18,20 @@ namespace SunLine.Manager.WebApi.Controllers
         private readonly IUserService _userService;
         private readonly ITeamService _teamService;
         private readonly IUserSessionService _userSessionService;
+        private readonly IStadiumService _stadiumService;
         
         public UsersController(
             IUnitOfWork unitOfWork, 
             IUserService userService, 
             ITeamService teamService, 
-            IUserSessionService userSessionService)
+            IUserSessionService userSessionService,
+            IStadiumService stadiumService)
         {
             _unitOfWork = unitOfWork;
             _userService = userService;
             _teamService = teamService;
             _userSessionService = userSessionService;
+            _stadiumService = stadiumService;
         }
         
         [Route("SignIn")]
@@ -86,17 +89,44 @@ namespace SunLine.Manager.WebApi.Controllers
             var user = _userService.FindById(id);
             if(user == null)
             {
-                return this.HttpNotFound($"User ({id}) not exists", DocumentationLinks.Users);
+                return this.HttpNotFound($"User ({id}) not exists", DocumentationLinks.Teams);
             }
             
             var team = _teamService.FindById(user.TeamId);
             if(team == null)
             {
-                return this.HttpNotFound($"Team for user ({id}) not exists", DocumentationLinks.Users);
+                return this.HttpNotFound($"Team for user ({id}) not exists", DocumentationLinks.Teams);
             }
             
             var teamDto = new TeamDto(team);
             return new JsonResult(teamDto);
+        }
+        
+        [ServiceFilter(typeof(CheckAccessTokenAttribute))]
+        [Route("{id}/Stadium")]
+        [HttpGet]
+        public IActionResult GetUserStadium(int id)
+        {   
+            var user = _userService.FindById(id);
+            if(user == null)
+            {
+                return this.HttpNotFound($"User ({id}) not exists", DocumentationLinks.Stadiums);
+            }
+            
+            var team = _teamService.FindById(user.TeamId);
+            if(team == null)
+            {
+                return this.HttpNotFound($"Team for user ({id}) not exists", DocumentationLinks.Stadiums);
+            }
+            
+            var stadium = _stadiumService.FindById(team.StadiumId);
+            if(stadium == null)
+            {
+                return this.HttpNotFound($"Stadium for user ({id}) not exists", DocumentationLinks.Stadiums);
+            }
+            
+            var stadiumDto = new StadiumDto(stadium);
+            return new JsonResult(stadiumDto);
         }
         
         [HttpPost]
