@@ -3,6 +3,7 @@
     "dependencies": {
         "EntityFramework.SqlServer": "7.0.0-beta5",
         "EntityFramework.Commands": "7.0.0-beta5",
+        "EntityFramework.InMemory": "7.0.0-beta5",
         "SunLine.Manager.Entities": "1.0.0-*"
     },
     

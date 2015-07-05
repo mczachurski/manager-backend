@@ -19,9 +19,15 @@ namespace SunLine.Manager.Repositories.Infrastructure
                 _created = true;
             }
         }            
+        
+        protected override void OnConfiguring(EntityOptionsBuilder optionsBuilder)
+        {
+            optionsBuilder.UseInMemoryStore();
+        }
 
         public virtual DbSet<User> Users { get; set; }
         public virtual DbSet<Team> Teams { get; set; }
+        public virtual DbSet<Stadium> Stadiums { get; set; }
         public virtual DbSet<UserSession> UserSessions { get; set; }
         public virtual DbSet<ExternalClient> ExternalClients { get; set; }
 

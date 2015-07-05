@@ -19,6 +19,8 @@
         "Microsoft.Framework.Logging": "1.0.0-beta5",
         "Microsoft.Framework.Logging.Console": "1.0.0-beta5",
         "Kestrel": "1.0.0-beta5",
+        "Autofac": "4.0.0-*",
+        "Autofac.Dnx": "4.0.0-*",
         "SunLine.Manager.Entities": "1.0.0-*",
         "SunLine.Manager.Repositories": "1.0.0-*",
         "SunLine.Manager.Services": "1.0.0-*",
