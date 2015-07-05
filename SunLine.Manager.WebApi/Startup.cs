@@ -8,6 +8,7 @@ using Microsoft.Framework.Configuration;
 using Microsoft.Framework.Logging;
 using SunLine.Manager.Repositories.Infrastructure;
 using SunLine.Manager.WebApi.DependencyInjection;
+using System;
 
 namespace SunLine.Manager.WebApi
 {
@@ -42,6 +43,8 @@ namespace SunLine.Manager.WebApi
             
             var embeddedModule = new EmbeddedModule();
             embeddedModule.Load(services);
+            
+            LogRegistrations(services);
         }
 
         public void Configure(IApplicationBuilder app, IHostingEnvironment env, ILoggerFactory loggerFactory)
@@ -62,6 +65,14 @@ namespace SunLine.Manager.WebApi
             }
             
             app.UseMvc();
+        }
+        
+        private void LogRegistrations(IServiceCollection services)
+        {            
+            foreach(var service in services)
+            {
+                Console.WriteLine($"IT: {service.ImplementationType} - ST: {service.ServiceType}");
+            }
         }
     }
 }

@@ -37,5 +37,11 @@ namespace SunLine.Manager.WebApi.HttpResult
             
             return controller.HttpBadRequest(ErrorDto.Create(message, modelErrors, documentation));
         }
+        
+        [NonAction]
+        public static BadRequestObjectResult HttpBadModelState(this Controller controller, string message, IList<ModelFieldErrorDto> modelErrors, string documentation = null)
+        {                        
+            return controller.HttpBadRequest(ErrorDto.Create(message, modelErrors, documentation));
+        }
     }
 }

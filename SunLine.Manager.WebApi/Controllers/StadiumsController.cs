@@ -1,6 +1,5 @@
 using Microsoft.AspNet.Mvc;
 using SunLine.Manager.Services.Football;
-using SunLine.Manager.Repositories.Infrastructure;
 using SunLine.Manager.WebApi.HttpResult;
 using SunLine.Manager.DataTransferObjects.Response;
 using SunLine.Manager.WebApi.Attributes;

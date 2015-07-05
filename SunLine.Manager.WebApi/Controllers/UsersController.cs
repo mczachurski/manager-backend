@@ -1,4 +1,6 @@
 using Microsoft.AspNet.Mvc;
+using Microsoft.AspNet.Mvc.ModelBinding.Validation;
+using Microsoft.AspNet.Mvc.ModelBinding;
 using SunLine.Manager.Services.Core;
 using SunLine.Manager.Services.Football;
 using SunLine.Manager.Entities.Core;
@@ -19,13 +21,15 @@ namespace SunLine.Manager.WebApi.Controllers
         private readonly ITeamService _teamService;
         private readonly IUserSessionService _userSessionService;
         private readonly IStadiumService _stadiumService;
+        private readonly IModelValidator _modelValidator;
         
         public UsersController(
             IUnitOfWork unitOfWork, 
             IUserService userService, 
             ITeamService teamService, 
             IUserSessionService userSessionService,
-            IStadiumService stadiumService)
+            IStadiumService stadiumService
+        )
         {
             _unitOfWork = unitOfWork;
             _userService = userService;
@@ -43,11 +47,10 @@ namespace SunLine.Manager.WebApi.Controllers
                 return this.HttpBadRequest("Sign in data not specified", DocumentationLinks.SignIn);
             }
             
-            if (!ModelState.IsValid)
+            if(!ModelState.IsValid)
             {
-                return this.HttpBadModelState("Error in sign in data model", DocumentationLinks.SignIn);
+                return this.HttpBadModelState("Error in sign in data model", DocumentationLinks.Users);
             }
-            
             
             User user = _userService.FindByCredentials(signInDto.Email, signInDto.Password);
             if(user == null)
@@ -136,8 +139,8 @@ namespace SunLine.Manager.WebApi.Controllers
             {
                 return this.HttpBadRequest("User data not specified", DocumentationLinks.Users);
             }
-            
-            if (!ModelState.IsValid)
+
+            if(!ModelState.IsValid)
             {
                 return this.HttpBadModelState("Error in user data model", DocumentationLinks.Users);
             }
