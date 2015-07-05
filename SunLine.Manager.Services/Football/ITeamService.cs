@@ -6,5 +6,6 @@ namespace SunLine.Manager.Services.Football
 	{
 		Team FindById(int id);
 		void Update(Team team);
+		Team Create(Team team);
 	}
 }

@@ -2,6 +2,7 @@ using SunLine.Manager.Entities.Core;
 using SunLine.Manager.Entities.Football;
 using SunLine.Manager.Repositories.Core;
 using SunLine.Manager.Repositories.Football;
+using SunLine.Manager.Services.Football;
 using SunLine.Manager.DataTransferObjects.Request;
 
 namespace SunLine.Manager.Services.Core
@@ -9,13 +10,13 @@ namespace SunLine.Manager.Services.Core
 	public class UserService : IUserService
 	{
 		private readonly IUserRepository _userRepository;
-		private readonly ITeamRepository _teamRepository;
+		private readonly ITeamService _teamService;
 		private readonly IStadiumRepository _stadiumRepository;
 		
-		public UserService(IUserRepository userRepository, ITeamRepository teamRepository, IStadiumRepository stadiumRepository)
+		public UserService(IUserRepository userRepository, ITeamService teamService, IStadiumRepository stadiumRepository)
 		{
 			_userRepository = userRepository;
-			_teamRepository = teamRepository;
+			_teamService = teamService;
 			_stadiumRepository = stadiumRepository;
 		}
 		
@@ -57,7 +58,7 @@ namespace SunLine.Manager.Services.Core
                 User = user,
                 UserId = user.Id
             };
-			team = _teamRepository.Create(team);
+			team = _teamService.Create(team);
              
             var stadium = new Stadium
             {

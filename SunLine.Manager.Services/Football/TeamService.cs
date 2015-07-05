@@ -21,5 +21,10 @@ namespace SunLine.Manager.Services.Football
 		{
 			_teamRepository.Update(team);
 		}
+		
+		public Team Create(Team team)
+		{
+			return _teamRepository.Create(team);
+		}
 	}
 }
