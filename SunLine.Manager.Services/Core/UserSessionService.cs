@@ -22,6 +22,7 @@ namespace SunLine.Manager.Services.Core
                 IsActive = true,
                 SessionStart = DateTime.UtcNow,
                 User = user,
+                UserId = user.Id,
                 AccessToken = accessToken  
             };
             
@@ -42,11 +43,6 @@ namespace SunLine.Manager.Services.Core
         public UserSession FindByAccessToken(Guid accessToken)
         {
             return _userSessionRepository.FindByAccessToken(accessToken);
-        }
-		
-		public bool IsActiveAccessToken(Guid accessToken)
-        {
-            return _userSessionRepository.IsActiveAccessToken(accessToken);
         }
     }
 }

@@ -9,7 +9,7 @@ namespace SunLine.Manager.WebApi.Controllers
 {
     [ServiceFilter(typeof(CheckClientKeyAttribute))]
     [Route("api/[controller]")]
-    public class StadiumsController : Controller
+    public class StadiumsController : BaseController
     {
         private readonly IStadiumService _stadiumService;
         

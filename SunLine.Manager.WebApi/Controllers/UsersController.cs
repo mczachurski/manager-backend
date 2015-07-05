@@ -12,7 +12,7 @@ namespace SunLine.Manager.WebApi.Controllers
 {
     [ServiceFilter(typeof(CheckClientKeyAttribute))]
     [Route("api/[controller]")]
-    public class UsersController : Controller
+    public class UsersController : BaseController
     {
         private readonly IUnitOfWork _unitOfWork;
         private readonly IUserService _userService;
@@ -70,7 +70,7 @@ namespace SunLine.Manager.WebApi.Controllers
         [ServiceFilter(typeof(CheckAccessTokenAttribute))]
         [HttpGet("{id}")]
         public IActionResult GetUser(int id)
-        {
+        {            
             var user = _userService.FindById(id);
             if(user == null)
             {

@@ -16,10 +16,5 @@ namespace SunLine.Manager.Repositories.Core
         {
             return _databaseContext.UserSessions.FirstOrDefault(x => x.AccessToken == accessToken);
         }
-        
-        public bool IsActiveAccessToken(Guid accessToken)
-        {
-            return _databaseContext.UserSessions.Any(x => x.AccessToken == accessToken && x.IsActive);
-        }
     }
 }

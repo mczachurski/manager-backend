@@ -7,6 +7,5 @@ namespace SunLine.Manager.Repositories.Core
     public interface IUserSessionRepository : IEntityRepository<UserSession>
     {
         UserSession FindByAccessToken(Guid accessToken);
-        bool IsActiveAccessToken(Guid accessToken);
     }
 }

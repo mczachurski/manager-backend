@@ -8,6 +8,5 @@ namespace SunLine.Manager.Services.Core
         UserSession CreateUserSession(User user, string host);
         void AbortUserSession(Guid accessToken);
         UserSession FindByAccessToken(Guid accessToken);
-		bool IsActiveAccessToken(Guid accessToken);
 	}
 }
