@@ -35,6 +35,7 @@ namespace SunLine.Manager.WebApi
         public void ConfigureServices(IServiceCollection services)
         {            
             services.AddEntityFramework()
+                .AddInMemoryStore()
                 .AddDbContext<DatabaseContext>();
             
             services.AddMvc();
