@@ -16,7 +16,7 @@ namespace SunLine.Manager.WebApi.Attributes
 		}
 		
 	    public override void OnActionExecuting(ActionExecutingContext actionContext)
-	    {			
+	    {		
 			var clientKeyString = actionContext.HttpContext.Request.Headers["ClientKey"];
 			
 	        if (string.IsNullOrWhiteSpace(clientKeyString))

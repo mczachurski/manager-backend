@@ -875,11 +875,6 @@
           "lib/net45/Microsoft.CodeAnalysis.CSharp.dll": {}
         }
       },
-      "Microsoft.CSharp/4.0.0-beta-23019": {
-        "frameworkAssemblies": [
-          "Microsoft.CSharp"
-        ]
-      },
       "Microsoft.Framework.Caching.Abstractions/1.0.0-beta5": {
         "frameworkAssemblies": [
           "mscorlib",
@@ -1333,14 +1328,6 @@
           "lib/portable-net45+win+wpa81+wp80/Remotion.Linq.dll": {}
         }
       },
-      "System.Collections/4.0.10-beta-23019": {
-        "dependencies": {
-          "System.Runtime": "4.0.0-beta-23019"
-        },
-        "compile": {
-          "ref/dotnet/System.Collections.dll": {}
-        }
-      },
       "System.Collections.Immutable/1.1.36": {
         "compile": {
           "lib/portable-net45+win8+wp8+wpa81/System.Collections.Immutable.dll": {}
@@ -1349,49 +1336,7 @@
           "lib/portable-net45+win8+wp8+wpa81/System.Collections.Immutable.dll": {}
         }
       },
-      "System.ComponentModel/4.0.0-beta-23019": {},
-      "System.ComponentModel.Annotations/4.0.10-beta-23019": {
-        "dependencies": {
-          "System.Runtime": "4.0.20-beta-23019",
-          "System.ComponentModel": "4.0.0-beta-23019",
-          "System.Resources.ResourceManager": "4.0.0-beta-23019",
-          "System.Reflection.Extensions": "4.0.0-beta-23019",
-          "System.Linq": "4.0.0-beta-23019",
-          "System.Reflection": "4.0.10-beta-23019",
-          "System.Text.RegularExpressions": "4.0.10-beta-23019",
-          "System.Collections": "4.0.10-beta-23019",
-          "System.Globalization": "4.0.10-beta-23019",
-          "System.Runtime.Extensions": "4.0.10-beta-23019",
-          "System.Threading": "4.0.10-beta-23019"
-        },
-        "compile": {
-          "ref/dotnet/System.ComponentModel.Annotations.dll": {}
-        },
-        "runtime": {
-          "lib/dotnet/System.ComponentModel.Annotations.dll": {}
-        }
-      },
-      "System.Globalization/4.0.10-beta-23019": {
-        "dependencies": {
-          "System.Runtime": "4.0.0-beta-23019"
-        },
-        "compile": {
-          "ref/dotnet/System.Globalization.dll": {}
-        }
-      },
       "System.IO/4.0.0-beta-23019": {},
-      "System.Linq/4.0.0-beta-23019": {},
-      "System.Reflection/4.0.10-beta-23019": {
-        "dependencies": {
-          "System.Runtime": "4.0.20-beta-23019",
-          "System.IO": "4.0.0-beta-23019",
-          "System.Reflection.Primitives": "4.0.0-beta-23019"
-        },
-        "compile": {
-          "ref/dotnet/System.Reflection.dll": {}
-        }
-      },
-      "System.Reflection.Extensions/4.0.0-beta-23019": {},
       "System.Reflection.Metadata/1.0.21": {
         "dependencies": {
           "System.Collections.Immutable": "1.1.36"
@@ -1403,21 +1348,7 @@
           "lib/portable-net45+win8/System.Reflection.Metadata.dll": {}
         }
       },
-      "System.Reflection.Primitives/4.0.0-beta-23019": {},
-      "System.Resources.ResourceManager/4.0.0-beta-23019": {},
-      "System.Runtime/4.0.20-beta-23019": {
-        "compile": {
-          "ref/dotnet/System.Runtime.dll": {}
-        }
-      },
-      "System.Runtime.Extensions/4.0.10-beta-23019": {
-        "dependencies": {
-          "System.Runtime": "4.0.20-beta-23019"
-        },
-        "compile": {
-          "ref/dotnet/System.Runtime.Extensions.dll": {}
-        }
-      },
+      "System.Runtime/4.0.0-beta-23019": {},
       "System.Security.Cryptography.Encryption/4.0.0-beta-23019": {
         "dependencies": {
           "System.Runtime": "4.0.0-beta-23019",
@@ -1436,31 +1367,6 @@
         },
         "compile": {
           "ref/dotnet/System.Security.Cryptography.RSA.dll": {}
-        }
-      },
-      "System.Text.RegularExpressions/4.0.10-beta-23019": {
-        "dependencies": {
-          "System.Runtime": "4.0.20-beta-23019",
-          "System.Resources.ResourceManager": "4.0.0-beta-23019",
-          "System.Collections": "4.0.10-beta-23019",
-          "System.Globalization": "4.0.10-beta-23019",
-          "System.Runtime.Extensions": "4.0.10-beta-23019",
-          "System.Threading": "4.0.10-beta-23019"
-        },
-        "compile": {
-          "ref/dotnet/System.Text.RegularExpressions.dll": {}
-        },
-        "runtime": {
-          "lib/dotnet/System.Text.RegularExpressions.dll": {}
-        }
-      },
-      "System.Threading/4.0.10-beta-23019": {
-        "dependencies": {
-          "System.Runtime": "4.0.0-beta-23019",
-          "System.Threading.Tasks": "4.0.0-beta-23019"
-        },
-        "compile": {
-          "ref/dotnet/System.Threading.dll": {}
         }
       },
       "System.Threading.Tasks/4.0.0-beta-23019": {}
@@ -5534,6 +5440,21 @@
         "ref/netcore50/System.Resources.ResourceManager.dll",
         "ref/win8/_._",
         "runtimes/win8-aot/lib/netcore50/System.Resources.ResourceManager.dll"
+      ]
+    },
+    "System.Runtime/4.0.0-beta-23019": {
+      "sha512": "BUB/5CSzjDRQlifthFztT1eWmnnb2QCK2WKd0kxAt8ytB+2oXiVqpSvcbtzRsidp8wGdG51fyolfiznodSIX9A==",
+      "files": [
+        "License.rtf",
+        "System.Runtime.4.0.0-beta-23019.nupkg",
+        "System.Runtime.4.0.0-beta-23019.nupkg.sha512",
+        "System.Runtime.nuspec",
+        "lib/net45/_._",
+        "lib/win8/_._",
+        "ref/dotnet/System.Runtime.dll",
+        "ref/net45/_._",
+        "ref/netcore50/System.Runtime.dll",
+        "ref/win8/_._"
       ]
     },
     "System.Runtime/4.0.20-beta-23019": {

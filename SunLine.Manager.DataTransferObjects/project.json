@@ -1,21 +1,18 @@
 {
-  "version": "1.0.0-*",
-  "description": "SunLine.Manager.DataTransferObjects Class Library",
-  "tags": [""],
-  "projectUrl": "",
-  "licenseUrl": "",
+    "version": "1.0.0-*",
+    "dependencies": {
+        "Microsoft.AspNet.Mvc": "6.0.0-beta5",
+        "SunLine.Manager.Entities": "1.0.0-*"
+    },
 
-  "dependencies": {
-    "System.Collections": "4.0.10-beta-23015",
-    "System.Linq": "4.0.0-beta-23015",
-    "System.Threading": "4.0.10-beta-23015",
-    "Microsoft.CSharp": "4.0.0-beta-23015",
-    "System.Runtime": "4.0.20-beta-23015",
-    "System.ComponentModel.Annotations": "4.0.10-beta-23019",
-    "SunLine.Manager.Entities": "1.0.0-*"
-  },
-
-  "frameworks": {
-    "dotnet": {}
-  }
+    "frameworks": {
+        "dnx451": {
+            "dependencies": {}
+        },
+        "dnxcore50": {
+            "dependencies": {
+                "System.Runtime": "4.0.20-*"
+            }
+        }
+    }
 }

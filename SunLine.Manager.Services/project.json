@@ -1,7 +1,7 @@
 {
     "version": "1.0.0-*",
     "dependencies": {
-        "System.Security.Cryptography.RSA": "4.0.0-beta-23019",
+        "System.Security.Cryptography.RSA": "4.0.0-*",
         "SunLine.Manager.Entities": "1.0.0-*",
         "SunLine.Manager.Repositories": "1.0.0-*",
         "SunLine.Manager.DataTransferObjects": "1.0.0-*"
