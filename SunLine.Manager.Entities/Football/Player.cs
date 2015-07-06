@@ -7,6 +7,7 @@ namespace SunLine.Manager.Entities.Football
         public string FirstName { get; set; }
         public string LastName { get; set; }
         public Team Team { get; set; }
+        public int TeamId { get; set; }
         public int Attack { get; set; }
         public int Pass { get; set; }
         public int Defense { get; set; }

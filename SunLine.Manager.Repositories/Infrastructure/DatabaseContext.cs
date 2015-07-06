@@ -28,6 +28,7 @@ namespace SunLine.Manager.Repositories.Infrastructure
         public virtual DbSet<User> Users { get; set; }
         public virtual DbSet<Team> Teams { get; set; }
         public virtual DbSet<Stadium> Stadiums { get; set; }
+        public virtual DbSet<Player> Players { get; set; }
         public virtual DbSet<UserSession> UserSessions { get; set; }
         public virtual DbSet<ExternalClient> ExternalClients { get; set; }
 
@@ -42,6 +43,8 @@ namespace SunLine.Manager.Repositories.Infrastructure
             
             builder.Entity<User>().Reference(m => m.Team).InverseReference(x => x.User).ForeignKey<User>(x => x.TeamId);
             builder.Entity<Team>().Reference(m => m.Stadium).InverseReference(x => x.Team).ForeignKey<Team>(x => x.StadiumId);
+            
+            builder.Entity<Player>().Reference(m => m.Team).InverseCollection(x => x.Players).ForeignKey(x => x.TeamId);
         }
     }
 }

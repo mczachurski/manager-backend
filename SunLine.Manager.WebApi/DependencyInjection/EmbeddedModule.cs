@@ -34,6 +34,7 @@ namespace SunLine.Manager.WebApi.DependencyInjection
             services.AddTransient<IUserRepository, UserRepository>();
             services.AddTransient<ITeamRepository, TeamRepository>();
 			services.AddTransient<IStadiumRepository, StadiumRepository>();
+			services.AddTransient<IPlayerRepository, PlayerRepository>();
 			services.AddTransient<IUserSessionRepository, UserSessionRepository>();
 			services.AddTransient<IExternalClientRepository, ExternalClientRepository>();
 		}

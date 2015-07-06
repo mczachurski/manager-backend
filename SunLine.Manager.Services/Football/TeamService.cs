@@ -6,10 +6,12 @@ namespace SunLine.Manager.Services.Football
 	public class TeamService : ITeamService
 	{
 		private readonly ITeamRepository _teamRepository;
+		private readonly IPlayerService _playerService;
 		
-		public TeamService(ITeamRepository teamRepository)
+		public TeamService(ITeamRepository teamRepository, IPlayerService playerService)
 		{
 			_teamRepository = teamRepository;
+			_playerService = playerService;
 		}
 		
 		public Team FindById(int id)
@@ -24,7 +26,10 @@ namespace SunLine.Manager.Services.Football
 		
 		public Team Create(Team team)
 		{
-			return _teamRepository.Create(team);
+			team = _teamRepository.Create(team);
+			_playerService.GeneratePlayerData(team);
+			
+			return team;
 		}
 	}
 }
