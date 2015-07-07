@@ -1,5 +1,6 @@
 using System.Collections.Generic;
 using SunLine.Manager.Entities.Core;
+using SunLine.Manager.Entities.Dict;
 
 namespace SunLine.Manager.Entities.Football
 {
@@ -21,6 +22,7 @@ namespace SunLine.Manager.Entities.Football
 		public double Budget { get; set; }
 		public Stadium Stadium { get; set; }
 		public int StadiumId { get; set; }
+		public TeamSetupEnum TeamSetup { get; set; }
 		
 		public override string ToString()
 		{

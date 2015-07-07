@@ -55,6 +55,7 @@ namespace SunLine.Manager.Services.Core
             var team = new Team
             {
                 Name = createUserDto.TeamName,
+				TeamSetup = (TeamSetupEnum) createUserDto.TeamSetup,
                 User = user,
                 UserId = user.Id
             };

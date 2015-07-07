@@ -1,5 +1,3 @@
-using SunLine.Manager.Entities.Dict;
-
 namespace SunLine.Manager.Entities.Football
 {
     public class Player : BaseEntity

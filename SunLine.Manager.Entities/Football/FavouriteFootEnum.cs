@@ -1,4 +1,4 @@
-namespace SunLine.Manager.Entities.Dict
+namespace SunLine.Manager.Entities.Football
 {
 	public enum FavouriteFootEnum
 	{

@@ -1,3 +1,4 @@
+using System;
 using System.Linq;
 using Xunit;
 using Moq;
@@ -121,7 +122,8 @@ namespace SunLine.Manager.Tests.Services
 				TeamName = "FC Barcelona",
 				StadiumName = "Great Stadium",
 				Email = "test@email.com",
-				Password = "password"
+				Password = "password",
+				TeamSetup = 1
 			};
 			
 			return createUserDto;

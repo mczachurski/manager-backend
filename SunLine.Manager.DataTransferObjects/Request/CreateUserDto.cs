@@ -10,10 +10,13 @@ namespace SunLine.Manager.DataTransferObjects.Request
 		[Required(ErrorMessage = "Lastname is required")]
 		public string LastName { get ; set; }
 		
-		[Required(ErrorMessage = "TeamName is required")]
+		[Required(ErrorMessage = "Team name is required")]
 		public string TeamName { get ; set; }
 		
-		[Required(ErrorMessage = "StadiumName is required")]
+		[Required(ErrorMessage = "Team setup is required")]
+		public int TeamSetup { get; set; }
+		
+		[Required(ErrorMessage = "Stadium name is required")]
 		public string StadiumName { get ; set; }
 		
 		[Required(ErrorMessage = "Email is required")]

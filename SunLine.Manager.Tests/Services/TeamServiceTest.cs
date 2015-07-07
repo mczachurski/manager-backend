@@ -22,7 +22,8 @@ namespace SunLine.Manager.Tests
 			{
 				Name = "FC Barcelona",
                 User = new User { Id = 1 },
-                UserId = 1
+                UserId = 1,
+				TeamSetup = TeamSetupEnum.Setup442A
 			};
 			
 			team = _teamService.Create(team);
@@ -39,7 +40,8 @@ namespace SunLine.Manager.Tests
 			{
 				Name = "FC Barcelona",
                 User = new User { Id = 1 },
-                UserId = 1
+                UserId = 1,
+				TeamSetup = TeamSetupEnum.Setup442A
 			};
 			
 			team = _teamService.Create(team);

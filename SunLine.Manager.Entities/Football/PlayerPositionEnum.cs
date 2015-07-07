@@ -1,10 +1,11 @@
-namespace SunLine.Manager.Entities.Dict
+namespace SunLine.Manager.Entities.Football
 {
 	public enum PlayerPositionEnum
 	{
+		Unknown = 0,
 		Goalkeeper = 1,
-		CentreBack = 2,
-		MiddleBack = 3,
+		LeftBack = 2,
+		CentreBack = 3,
 		RightBack = 4,
 		DefensiveMidfield = 5,
 		LeftMidfield = 6,
