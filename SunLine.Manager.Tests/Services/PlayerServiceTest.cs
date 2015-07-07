@@ -17,7 +17,37 @@ namespace SunLine.Manager.Tests
 		[Fact]
 		public void GeneratedPlayersInTeamMustBeProperFor442ATeamSettings()
 		{
-			Assert.True(false);
+			var playerService = _container.Resolve<IPlayerService>();
+			var unitOfWork = _container.Resolve<IUnitOfWork>();
+			var team = CreateCorrectTeam();
+			team.Id = 12;
+			team.TeamSetup = TeamSetupEnum.Setup442A;
+			
+			playerService.GeneratePlayerData(team);
+			unitOfWork.Commit();
+			
+			var players = playerService.FindAllPlayersForTeam(team.Id);
+			Assert.True(players.Count(x => x.PlayerPosition == PlayerPositionEnum.CentreForward) >= 2);
+			Assert.True(players.Count(x => x.PlayerPosition == PlayerPositionEnum.CentreMidfield) >= 2);
+			Assert.True(players.Count(x => x.PlayerPosition == PlayerPositionEnum.LeftMidfield) >= 1);
+			Assert.True(players.Count(x => x.PlayerPosition == PlayerPositionEnum.RightMidfield) >= 1);
+			Assert.True(players.Count(x => x.PlayerPosition == PlayerPositionEnum.CentreBack) >= 2);
+			Assert.True(players.Count(x => x.PlayerPosition == PlayerPositionEnum.LeftBack) >= 1);
+			Assert.True(players.Count(x => x.PlayerPosition == PlayerPositionEnum.RightBack) >= 1);
+			Assert.True(players.Count(x => x.PlayerPosition == PlayerPositionEnum.Goalkeeper) >= 1);
+		}
+		
+		private Team CreateCorrectTeam()
+		{
+			var team = new Team
+			{
+				Name = "FC Barcelona",
+                User = new User { Id = 1 },
+                UserId = 1,
+				TeamSetup = TeamSetupEnum.Setup442A
+			};
+			
+			return team;
 		}
 	}
 }	

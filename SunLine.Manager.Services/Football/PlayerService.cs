@@ -1,3 +1,6 @@
+using System;
+using System.Linq;
+using System.Collections.Generic;
 using SunLine.Manager.Entities.Football;
 using SunLine.Manager.Repositories.Football;
 
@@ -19,6 +22,11 @@ namespace SunLine.Manager.Services.Football
 			return _playerRepository.FindById(id);
 		}
 		
+		public IList<Player> FindAllPlayersForTeam(int teamId)
+		{
+			return _playerRepository.FindAll().Where(x => x.TeamId == teamId).ToList();
+		}
+		
 		public void Update(Player player)
 		{
 			_playerRepository.Update(player);
@@ -37,19 +45,22 @@ namespace SunLine.Manager.Services.Football
 				CreatePlayerData(team, playerPositions[i]);
 			}
 			
-			int restOfPlayers = 18 - playerPositions.Count;
+			CreatePlayerData(team, PlayerPositionEnum.Goalkeeper);
+			
+			int restOfPlayers = 17 - playerPositions.Count;
 			for(int i = 0; i < restOfPlayers; ++i)
 			{
 				CreatePlayerData(team, PlayerPositionEnum.Unknown);
-			} 
+			}
 		}
 		
 		private void CreatePlayerData(Team team, PlayerPositionEnum playerPosition)
 		{
 			if(playerPosition == PlayerPositionEnum.Unknown)
 			{
-				// TODO: Generate position.
-				playerPosition = PlayerPositionEnum.Goalkeeper;		
+				Random random = new Random();
+				int randomPosition = random.Next(1, 12);
+				playerPosition = (PlayerPositionEnum) randomPosition;		
 			}
 			
 			var player = new Player

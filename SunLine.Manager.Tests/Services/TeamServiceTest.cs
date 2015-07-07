@@ -17,16 +17,10 @@ namespace SunLine.Manager.Tests
 		[Fact]
 		public void TeamHaveToHaveProperAmountOfPlayerAfterCreating()
 		{
-			var _teamService = _container.Resolve<ITeamService>();
-			var team = new Team
-			{
-				Name = "FC Barcelona",
-                User = new User { Id = 1 },
-                UserId = 1,
-				TeamSetup = TeamSetupEnum.Setup442A
-			};
+			var teamService = _container.Resolve<ITeamService>();
+			var team = CreateCorrectTeam();
 			
-			team = _teamService.Create(team);
+			team = teamService.Create(team);
 			
 			Assert.Equal(18, team.Players.Count);
 		}
@@ -34,8 +28,20 @@ namespace SunLine.Manager.Tests
 		[Fact]
 		public void AfterCreatingTeamNewPlayersMustBeSavedInDatabase()
 		{
-			var _teamService = _container.Resolve<ITeamService>();
-			var _unitOfWork = _container.Resolve<IUnitOfWork>();
+			var teamService = _container.Resolve<ITeamService>();
+			var unitOfWork = _container.Resolve<IUnitOfWork>();
+			var team = CreateCorrectTeam();
+			
+			team = teamService.Create(team);
+			unitOfWork.Commit();
+			
+			var databaseContext = _container.Resolve<DatabaseContext>();
+			var amountOfPlayers = databaseContext.Players.Count(x => x.TeamId == team.Id);
+			Assert.Equal(18, amountOfPlayers);
+		}
+		
+		private Team CreateCorrectTeam()
+		{
 			var team = new Team
 			{
 				Name = "FC Barcelona",
@@ -44,12 +50,7 @@ namespace SunLine.Manager.Tests
 				TeamSetup = TeamSetupEnum.Setup442A
 			};
 			
-			team = _teamService.Create(team);
-			_unitOfWork.Commit();
-			
-			var databaseContext = _container.Resolve<DatabaseContext>();
-			var amountOfPlayers = databaseContext.Players.Count(x => x.TeamId == team.Id);
-			Assert.Equal(18, amountOfPlayers);
+			return team;
 		}
 	}
 }
