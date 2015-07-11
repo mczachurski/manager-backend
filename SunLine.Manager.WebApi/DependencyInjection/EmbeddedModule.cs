@@ -43,6 +43,7 @@ namespace SunLine.Manager.WebApi.DependencyInjection
 		{
             services.AddTransient<IUserService, UserService>();
             services.AddTransient<ITeamService, TeamService>();
+			services.AddTransient<IPlayerService, PlayerService>();
 			services.AddTransient<IStadiumService, StadiumService>();
 			services.AddTransient<IUserSessionService, UserSessionService>();
 			services.AddTransient<IExternalClientService, ExternalClientService>();
