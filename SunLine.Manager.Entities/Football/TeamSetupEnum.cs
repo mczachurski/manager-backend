@@ -13,7 +13,7 @@ namespace SunLine.Manager.Entities.Football
 		Setup541A = 9,
 		Setup541B = 10,
 		Setup343A = 11,
-		Setup342B = 12,
+		Setup343B = 12,
 		Setup352A = 13,
 		Setup352B = 14,
 		Setup4231A = 15,
