@@ -64,6 +64,54 @@ namespace SunLine.Manager.Repositories.Football
 						PlayerPositionEnum.LeftBack,
 						PlayerPositionEnum.RightBack
 					};
+				case TeamSetupEnum.Setup433B:
+					return new List<PlayerPositionEnum>() 
+					{ 
+						PlayerPositionEnum.LeftForward, 
+						PlayerPositionEnum.CentreForward,
+						PlayerPositionEnum.RightForward,
+						
+						PlayerPositionEnum.CentreMidfield,
+						PlayerPositionEnum.CentreMidfield,
+						PlayerPositionEnum.DefensiveMidfield,
+						
+						PlayerPositionEnum.CentreBack,
+						PlayerPositionEnum.CentreBack,
+						PlayerPositionEnum.LeftBack,
+						PlayerPositionEnum.RightBack
+					};
+				case TeamSetupEnum.Setup451A:
+					return new List<PlayerPositionEnum>() 
+					{ 
+						PlayerPositionEnum.CentreForward,
+						
+						PlayerPositionEnum.CentreMidfield,
+						PlayerPositionEnum.CentreMidfield,
+						PlayerPositionEnum.CentreMidfield,
+						PlayerPositionEnum.LeftMidfield,
+						PlayerPositionEnum.RightMidfield,
+						
+						PlayerPositionEnum.CentreBack,
+						PlayerPositionEnum.CentreBack,
+						PlayerPositionEnum.LeftBack,
+						PlayerPositionEnum.RightBack
+					};
+				case TeamSetupEnum.Setup451B:
+					return new List<PlayerPositionEnum>() 
+					{ 
+						PlayerPositionEnum.CentreForward,
+						
+						PlayerPositionEnum.CentreMidfield,
+						PlayerPositionEnum.CentreMidfield,
+						PlayerPositionEnum.CentreMidfield,
+						PlayerPositionEnum.OffensiveMidfield,
+						PlayerPositionEnum.DefensiveMidfield,
+						
+						PlayerPositionEnum.CentreBack,
+						PlayerPositionEnum.CentreBack,
+						PlayerPositionEnum.LeftBack,
+						PlayerPositionEnum.RightBack
+					};
 				default:
 					throw new NotImplementedException("This team setup is not implemented.");
 			}

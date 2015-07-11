@@ -37,6 +37,122 @@ namespace SunLine.Manager.Tests
 			Assert.True(players.Count(x => x.PlayerPosition == PlayerPositionEnum.Goalkeeper) >= 1);
 		}
 		
+		[Fact]
+		public void GeneratedPlayersInTeamMustBeProperFor442BTeamSettings()
+		{
+			var playerService = _container.Resolve<IPlayerService>();
+			var unitOfWork = _container.Resolve<IUnitOfWork>();
+			var team = CreateCorrectTeam();
+			team.Id = 13;
+			team.TeamSetup = TeamSetupEnum.Setup442B;
+			
+			playerService.GeneratePlayerData(team);
+			unitOfWork.Commit();
+			
+			var players = playerService.FindAllPlayersForTeam(team.Id);
+			Assert.True(players.Count(x => x.PlayerPosition == PlayerPositionEnum.CentreForward) >= 2);
+			Assert.True(players.Count(x => x.PlayerPosition == PlayerPositionEnum.OffensiveMidfield ) >= 1);
+			Assert.True(players.Count(x => x.PlayerPosition == PlayerPositionEnum.CentreMidfield) >= 2);
+			Assert.True(players.Count(x => x.PlayerPosition == PlayerPositionEnum.DefensiveMidfield) >= 1);
+			Assert.True(players.Count(x => x.PlayerPosition == PlayerPositionEnum.CentreBack) >= 2);
+			Assert.True(players.Count(x => x.PlayerPosition == PlayerPositionEnum.LeftBack) >= 1);
+			Assert.True(players.Count(x => x.PlayerPosition == PlayerPositionEnum.RightBack) >= 1);
+			Assert.True(players.Count(x => x.PlayerPosition == PlayerPositionEnum.Goalkeeper) >= 1);
+		}
+		
+		[Fact]
+		public void GeneratedPlayersInTeamMustBeProperFor433ATeamSettings()
+		{
+			var playerService = _container.Resolve<IPlayerService>();
+			var unitOfWork = _container.Resolve<IUnitOfWork>();
+			var team = CreateCorrectTeam();
+			team.Id = 14;
+			team.TeamSetup = TeamSetupEnum.Setup433A;
+			
+			playerService.GeneratePlayerData(team);
+			unitOfWork.Commit();
+			
+			var players = playerService.FindAllPlayersForTeam(team.Id);
+			Assert.True(players.Count(x => x.PlayerPosition == PlayerPositionEnum.CentreForward) >= 1);
+			Assert.True(players.Count(x => x.PlayerPosition == PlayerPositionEnum.LeftForward) >= 1);
+			Assert.True(players.Count(x => x.PlayerPosition == PlayerPositionEnum.RightForward) >= 1);
+			Assert.True(players.Count(x => x.PlayerPosition == PlayerPositionEnum.CentreMidfield) >= 3);
+			Assert.True(players.Count(x => x.PlayerPosition == PlayerPositionEnum.CentreBack) >= 2);
+			Assert.True(players.Count(x => x.PlayerPosition == PlayerPositionEnum.LeftBack) >= 1);
+			Assert.True(players.Count(x => x.PlayerPosition == PlayerPositionEnum.RightBack) >= 1);
+			Assert.True(players.Count(x => x.PlayerPosition == PlayerPositionEnum.Goalkeeper) >= 1);
+		}
+		
+		[Fact]
+		public void GeneratedPlayersInTeamMustBeProperFor433BTeamSettings()
+		{
+			var playerService = _container.Resolve<IPlayerService>();
+			var unitOfWork = _container.Resolve<IUnitOfWork>();
+			var team = CreateCorrectTeam();
+			team.Id = 15;
+			team.TeamSetup = TeamSetupEnum.Setup433B;
+			
+			playerService.GeneratePlayerData(team);
+			unitOfWork.Commit();
+			
+			var players = playerService.FindAllPlayersForTeam(team.Id);
+			Assert.True(players.Count(x => x.PlayerPosition == PlayerPositionEnum.CentreForward) >= 1);
+			Assert.True(players.Count(x => x.PlayerPosition == PlayerPositionEnum.LeftForward) >= 1);
+			Assert.True(players.Count(x => x.PlayerPosition == PlayerPositionEnum.RightForward) >= 1);
+			Assert.True(players.Count(x => x.PlayerPosition == PlayerPositionEnum.CentreMidfield) >= 2);
+			Assert.True(players.Count(x => x.PlayerPosition == PlayerPositionEnum.DefensiveMidfield) >= 1);
+			Assert.True(players.Count(x => x.PlayerPosition == PlayerPositionEnum.CentreBack) >= 2);
+			Assert.True(players.Count(x => x.PlayerPosition == PlayerPositionEnum.LeftBack) >= 1);
+			Assert.True(players.Count(x => x.PlayerPosition == PlayerPositionEnum.RightBack) >= 1);
+			Assert.True(players.Count(x => x.PlayerPosition == PlayerPositionEnum.Goalkeeper) >= 1);
+		}
+		
+		[Fact]
+		public void GeneratedPlayersInTeamMustBeProperFor451ATeamSettings()
+		{
+			var playerService = _container.Resolve<IPlayerService>();
+			var unitOfWork = _container.Resolve<IUnitOfWork>();
+			var team = CreateCorrectTeam();
+			team.Id = 16;
+			team.TeamSetup = TeamSetupEnum.Setup451A;
+			
+			playerService.GeneratePlayerData(team);
+			unitOfWork.Commit();
+			
+			var players = playerService.FindAllPlayersForTeam(team.Id);
+			Assert.True(players.Count(x => x.PlayerPosition == PlayerPositionEnum.CentreForward) >= 1);
+			Assert.True(players.Count(x => x.PlayerPosition == PlayerPositionEnum.CentreMidfield) >= 3);
+			Assert.True(players.Count(x => x.PlayerPosition == PlayerPositionEnum.LeftMidfield) >= 1);
+			Assert.True(players.Count(x => x.PlayerPosition == PlayerPositionEnum.RightMidfield) >= 1);
+			Assert.True(players.Count(x => x.PlayerPosition == PlayerPositionEnum.CentreBack) >= 2);
+			Assert.True(players.Count(x => x.PlayerPosition == PlayerPositionEnum.LeftBack) >= 1);
+			Assert.True(players.Count(x => x.PlayerPosition == PlayerPositionEnum.RightBack) >= 1);
+			Assert.True(players.Count(x => x.PlayerPosition == PlayerPositionEnum.Goalkeeper) >= 1);
+		}
+		
+		[Fact]
+		public void GeneratedPlayersInTeamMustBeProperFor451BTeamSettings()
+		{
+			var playerService = _container.Resolve<IPlayerService>();
+			var unitOfWork = _container.Resolve<IUnitOfWork>();
+			var team = CreateCorrectTeam();
+			team.Id = 17;
+			team.TeamSetup = TeamSetupEnum.Setup451B;
+			
+			playerService.GeneratePlayerData(team);
+			unitOfWork.Commit();
+			
+			var players = playerService.FindAllPlayersForTeam(team.Id);
+			Assert.True(players.Count(x => x.PlayerPosition == PlayerPositionEnum.CentreForward) >= 1);
+			Assert.True(players.Count(x => x.PlayerPosition == PlayerPositionEnum.OffensiveMidfield) >= 1);
+			Assert.True(players.Count(x => x.PlayerPosition == PlayerPositionEnum.CentreMidfield) >= 3);
+			Assert.True(players.Count(x => x.PlayerPosition == PlayerPositionEnum.DefensiveMidfield) >= 1);
+			Assert.True(players.Count(x => x.PlayerPosition == PlayerPositionEnum.CentreBack) >= 2);
+			Assert.True(players.Count(x => x.PlayerPosition == PlayerPositionEnum.LeftBack) >= 1);
+			Assert.True(players.Count(x => x.PlayerPosition == PlayerPositionEnum.RightBack) >= 1);
+			Assert.True(players.Count(x => x.PlayerPosition == PlayerPositionEnum.Goalkeeper) >= 1);
+		}
+		
 		private Team CreateCorrectTeam()
 		{
 			var team = new Team
