@@ -2,6 +2,7 @@ namespace SunLine.Manager.Entities.Football
 {
 	public enum TeamSetupEnum
 	{
+		Unknown = 0,
 		Setup442A = 1,
 		Setup442B = 2,
 		Setup433A = 3,

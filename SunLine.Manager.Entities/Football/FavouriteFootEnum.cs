@@ -2,7 +2,8 @@ namespace SunLine.Manager.Entities.Football
 {
 	public enum FavouriteFootEnum
 	{
-		RightFooted = 1,
-		LeftFooted = 2
+		Unknown = 0,
+		RightFoot = 1,
+		LeftFoot = 2
 	}
 }

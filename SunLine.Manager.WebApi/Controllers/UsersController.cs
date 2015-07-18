@@ -1,8 +1,8 @@
 using Microsoft.AspNet.Mvc;
 using Microsoft.AspNet.Mvc.ModelBinding.Validation;
-using Microsoft.AspNet.Mvc.ModelBinding;
 using SunLine.Manager.Services.Core;
 using SunLine.Manager.Services.Football;
+using SunLine.Manager.Entities;
 using SunLine.Manager.Entities.Core;
 using SunLine.Manager.Repositories.Infrastructure;
 using SunLine.Manager.DataTransferObjects.Response;
@@ -151,9 +151,13 @@ namespace SunLine.Manager.WebApi.Controllers
                 return this.HttpForbidden("User with this email already exists", DocumentationLinks.Users);   
             }
             
-            _userService.Create(createUserDto);
-            _unitOfWork.Commit();
+            OperationResult operationResult = _userService.Create(createUserDto);
+            if(!operationResult.IsSuccess)
+            {
+                return this.HttpErrorDuringOperation("Error during creation a user.", operationResult, DocumentationLinks.Users);
+            }
             
+            _unitOfWork.Commit();
             return new JsonResult(SuccessDto.Create());
         }
     }

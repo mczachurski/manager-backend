@@ -123,7 +123,7 @@ namespace SunLine.Manager.Tests.Services
 				StadiumName = "Great Stadium",
 				Email = "test@email.com",
 				Password = "password",
-				TeamSetup = 1
+				TeamSetup = "Setup442A"
 			};
 			
 			return createUserDto;

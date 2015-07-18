@@ -1,6 +1,7 @@
 using System.Linq;
 using System.Collections.Generic;
 using Microsoft.AspNet.Mvc;
+using SunLine.Manager.Entities;
 using SunLine.Manager.DataTransferObjects.Response;
 
 namespace SunLine.Manager.WebApi.HttpResult
@@ -36,6 +37,14 @@ namespace SunLine.Manager.WebApi.HttpResult
             }
             
             return controller.HttpBadRequest(ErrorDto.Create(message, modelErrors, documentation));
+        }
+        
+        [NonAction]
+        public static BadRequestObjectResult HttpErrorDuringOperation(this Controller controller, string message, OperationResult operationResult, string documentation = null)
+        {                        
+            string errorMessage = operationResult.ErrorMessage != null ? operationResult.ErrorMessage : string.Empty;
+            errorMessage = $"{message} {errorMessage}";
+            return controller.HttpBadRequest(ErrorDto.Create(errorMessage, documentation));
         }
         
         [NonAction]

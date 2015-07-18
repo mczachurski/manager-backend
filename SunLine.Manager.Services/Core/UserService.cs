@@ -1,3 +1,5 @@
+using System;
+using SunLine.Manager.Entities;
 using SunLine.Manager.Entities.Core;
 using SunLine.Manager.Entities.Football;
 using SunLine.Manager.Repositories.Core;
@@ -41,8 +43,8 @@ namespace SunLine.Manager.Services.Core
 			return user;
 		}
 		
-		public User Create(CreateUserDto createUserDto)
-		{
+		public OperationResult Create(CreateUserDto createUserDto)
+		{			
             var user = new User
             {
                 FirstName = createUserDto.FirstName,
@@ -52,10 +54,16 @@ namespace SunLine.Manager.Services.Core
             };
 			user = _userRepository.Create(user);
 			
+			TeamSetupEnum teamSetup = TeamSetupEnum.Unknown;
+			if(!TeamSetupEnum.TryParse(createUserDto.TeamSetup, true, out teamSetup))
+			{
+				return new OperationResult { IsSuccess = false, ErrorMessage = $"Team setup '{createUserDto.TeamSetup}' not exists." };
+			}
+			
             var team = new Team
             {
                 Name = createUserDto.TeamName,
-				TeamSetup = (TeamSetupEnum) createUserDto.TeamSetup,
+				TeamSetup = teamSetup,
                 User = user,
                 UserId = user.Id
             };
@@ -68,10 +76,9 @@ namespace SunLine.Manager.Services.Core
 				Team = team,
 				TeamId = team.Id
             };			
-			
 			stadium = _stadiumRepository.Create(stadium);
 			
-			return user;
+			return new OperationResult { IsSuccess = true, Data = user };;
 		}
 		
 		public User FindByEmail(string email)

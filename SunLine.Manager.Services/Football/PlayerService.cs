@@ -56,20 +56,25 @@ namespace SunLine.Manager.Services.Football
 		
 		private void CreatePlayerData(Team team, PlayerPositionEnum playerPosition)
 		{
+			Random random = new Random();
+			
 			if(playerPosition == PlayerPositionEnum.Unknown)
 			{
-				Random random = new Random();
 				int randomPosition = random.Next(1, 12);
 				playerPosition = (PlayerPositionEnum) randomPosition;		
 			}
 			
+			int randomFoot = random.Next(1, 2);
+			FavouriteFootEnum favouriteFoot = (FavouriteFootEnum) randomFoot; 
+		
 			var player = new Player
 			{
 				FirstName = "John",
 				LastName = "Smith",
 				Team = team,
 				TeamId = team.Id,
-				PlayerPosition = playerPosition
+				PlayerPosition = playerPosition,
+				FavouriteFoot = favouriteFoot
 			};
 			
 			_playerRepository.Create(player);			

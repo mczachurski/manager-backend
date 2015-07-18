@@ -12,11 +12,11 @@ namespace SunLine.Manager.DataTransferObjects.Response
 			Attack = player.Attack;
 			Pass = player.Pass;
 			Defense = player.Defense;
-			PlayerPosition = player.PlayerPosition;
+			PlayerPosition = player.PlayerPosition.ToString();
 			Height = player.Height;
 			Weight = player.Weight;
 			Age = player.Age;
-			FavouriteFoot = player.FavouriteFoot;
+			FavouriteFoot = player.FavouriteFoot.ToString();
 			Price = player.Price;
 		}
 		
@@ -26,11 +26,11 @@ namespace SunLine.Manager.DataTransferObjects.Response
         public int Attack { get; set; }
         public int Pass { get; set; }
         public int Defense { get; set; }
-        public PlayerPositionEnum PlayerPosition { get; set; }
+        public string PlayerPosition { get; set; }
         public int Height { get; set; }
         public int Weight { get; set; }
         public int Age { get; set; }
-        public FavouriteFootEnum FavouriteFoot { get; set; }
+        public string FavouriteFoot { get; set; }
         public double Price { get; set; } 
 	}
 }

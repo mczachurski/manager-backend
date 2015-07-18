@@ -286,13 +286,45 @@ namespace SunLine.Manager.Tests.Controllers
 		public void CreateUserMustReturnSuccessWhenUserIsValid()
 		{
 			CreateUserControllerMocks();
-			var createUserDto = new CreateUserDto { FirstName = "John", LastName = "Smith", Email = "email@email.com" };
+			var createUserDto = CreateCorrectUserDto();
 			
 			var actionResult = _usersController.CreateUser(createUserDto) as JsonResult;
 			
 			Assert.NotNull(actionResult);
 			dynamic data = actionResult.Value;  
     		Assert.Equal(true, data.IsSuccess);   
+		}
+		
+		[Fact]
+		public void CreateUserMustReturnBadRequestWhenTeamSetupNotExists()
+		{
+			CreateUserControllerMocks();
+			var createUserDto = CreateCorrectUserDto();
+			createUserDto.Email = "email001@email.com";
+			
+			var actionResult = _usersController.CreateUser(createUserDto) as ObjectResult;
+			
+			Assert.NotNull(actionResult);
+			Assert.Equal(400, actionResult.StatusCode);
+			Assert.NotNull(actionResult.Value);
+			dynamic data = actionResult.Value;  
+    		Assert.Equal($"Team setup 'FailSetup' not exists.", data.Message);
+		}
+		
+		private CreateUserDto CreateCorrectUserDto()
+		{
+			var createUserDto = new CreateUserDto
+			{
+				FirstName = "John",
+				LastName  = "Smith",
+				TeamName = "FC Barcelona",
+				StadiumName = "Great Stadium",
+				Email = "thisisnew@email.com",
+				Password = "password",
+				TeamSetup = "FailSetup"
+			};
+			
+			return createUserDto;
 		}
 	}
 }

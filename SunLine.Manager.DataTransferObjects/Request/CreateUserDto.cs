@@ -14,7 +14,7 @@ namespace SunLine.Manager.DataTransferObjects.Request
 		public string TeamName { get ; set; }
 		
 		[Required(ErrorMessage = "Team setup is required")]
-		public int TeamSetup { get; set; }
+		public string TeamSetup { get; set; }
 		
 		[Required(ErrorMessage = "Stadium name is required")]
 		public string StadiumName { get ; set; }
