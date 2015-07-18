@@ -83,6 +83,10 @@ namespace SunLine.Manager.Services.Football
 				Weight = random.Next(60, 100)
 			};
 			
+			team.Attack += player.Attack;
+			team.Defense += player.Defense;
+			team.Pass += player.Pass;
+			
 			player.Price = CalculatePrice(player);
 			_playerRepository.Create(player);			
 		}
