@@ -23,6 +23,9 @@ namespace SunLine.Manager.Entities.Football
 		public Stadium Stadium { get; set; }
 		public int StadiumId { get; set; }
 		public TeamSetupEnum TeamSetup { get; set; }
+        public int Attack { get; set; }
+        public int Pass { get; set; }
+        public int Defense { get; set; }
 		
 		public override string ToString()
 		{

@@ -14,5 +14,8 @@ namespace SunLine.Manager.DataTransferObjects.Response
 		public string Name { get ; set; }		
 		public int UserId { get; set; }
 		public int StadiumId { get; set; }
+        public int Attack { get; set; }
+        public int Pass { get; set; }
+        public int Defense { get; set; }
 	}
 }
