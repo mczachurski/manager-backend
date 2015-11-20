@@ -1,7 +1,6 @@
 {
     "version": "1.0.0-*",
     "dependencies": {
-        "System.Security.Cryptography.RSA": "4.0.0-*",
         "SunLine.Manager.Entities": "1.0.0-*",
         "SunLine.Manager.Repositories": "1.0.0-*",
         "SunLine.Manager.DataTransferObjects": "1.0.0-*"
@@ -13,7 +12,12 @@
         },
         "dnxcore50": {
             "dependencies": {
-                "System.Runtime": "4.0.20-*"
+                "System.Runtime": "4.0.21-*",
+                "Microsoft.CSharp": "4.0.1-*",
+                "System.Collections": "4.0.11-*",
+                "System.Linq": "4.0.1-*",
+                "System.Threading": "4.0.11-*",
+                "System.Security.Cryptography.RandomNumberGenerator": "4.0.0-*"
             }
         }
     }

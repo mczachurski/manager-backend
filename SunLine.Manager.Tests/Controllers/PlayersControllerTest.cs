@@ -1,11 +1,9 @@
 using Microsoft.AspNet.Mvc;
-using Xunit;
 using Moq;
-using SunLine.Manager.WebApi.Controllers;
 using SunLine.Manager.Entities.Football;
-using SunLine.Manager.Repositories.Football;
-using SunLine.Manager.Repositories.Infrastructure;
 using SunLine.Manager.Services.Football;
+using SunLine.Manager.WebApi.Controllers;
+using Xunit;
 
 namespace SunLine.Manager.Tests.Controllers
 {

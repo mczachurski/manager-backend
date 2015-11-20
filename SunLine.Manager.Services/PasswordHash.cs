@@ -27,7 +27,6 @@
  */
 
 using System;
-using System.Text;
 using System.Security.Cryptography;
 
 namespace SunLine.Manager.Services
@@ -57,7 +56,7 @@ namespace SunLine.Manager.Services
         public static string CreateHash(string password)
         {
             // Generate a random salt
-            RNGCryptoServiceProvider csprng = new RNGCryptoServiceProvider();
+            var csprng = RandomNumberGenerator.Create();
             byte[] salt = new byte[SALT_BYTE_SIZE];
             csprng.GetBytes(salt);
 
@@ -99,7 +98,10 @@ namespace SunLine.Manager.Services
         {
             uint diff = (uint)a.Length ^ (uint)b.Length;
             for (int i = 0; i < a.Length && i < b.Length; i++)
+            {
                 diff |= (uint)(a[i] ^ b[i]);
+            }
+            
             return diff == 0;
         }
 

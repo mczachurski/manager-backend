@@ -1,11 +1,8 @@
 using Microsoft.AspNet.Builder;
 using Microsoft.AspNet.Hosting;
-using Microsoft.AspNet.Diagnostics;
-using Microsoft.AspNet.Diagnostics.Entity;
-using Microsoft.Framework.Runtime;
-using Microsoft.Framework.DependencyInjection;
-using Microsoft.Framework.Configuration;
-using Microsoft.Framework.Logging;
+using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.Logging;
+using Microsoft.Extensions.DependencyInjection;
 using SunLine.Manager.Repositories.Infrastructure;
 using SunLine.Manager.WebApi.DependencyInjection;
 using System;
@@ -16,53 +13,38 @@ namespace SunLine.Manager.WebApi
     {
         public IConfiguration Configuration { get; set; }
         
-        public Startup(IHostingEnvironment env, IApplicationEnvironment appEnv)
+        // Entry point for the application.
+        //public static void Main(string[] args) => Microsoft.AspNet.Hosting.WebApplication.Run<Startup>(args);
+        public static void Main(string[] args) => WebApplication.Run<Startup>(args);
+        
+        public Startup(IHostingEnvironment env)
         {
-            var configurationBuilder = new ConfigurationBuilder(appEnv.ApplicationBasePath)
+            var builder = new ConfigurationBuilder()
                 .AddJsonFile("config.json")
-                .AddJsonFile($"config.{env.EnvironmentName}.json", optional: true);
-                
-            if (env.IsDevelopment())
-            {
-                // This reads the configuration keys from the secret store.
-                // For more details on using the user secret store see http://go.microsoft.com/fwlink/?LinkID=532709
-                configurationBuilder.AddUserSecrets();
-            }
-            
-            configurationBuilder.AddEnvironmentVariables();
-            Configuration = configurationBuilder.Build();
+                .AddJsonFile($"config.{env.EnvironmentName}.json", optional: true)
+                .AddEnvironmentVariables();
+            Configuration = builder.Build();
         }
 
         public void ConfigureServices(IServiceCollection services)
         {            
             services.AddEntityFramework()
-                .AddInMemoryStore()
+                .AddInMemoryDatabase()
                 .AddDbContext<DatabaseContext>();
             
             services.AddMvc();
             
             var embeddedModule = new EmbeddedModule();
             embeddedModule.Load(services);
-            
             LogRegistrations(services);
         }
 
         public void Configure(IApplicationBuilder app, IHostingEnvironment env, ILoggerFactory loggerFactory)
         {
-            loggerFactory.MinimumLevel = LogLevel.Verbose;
-            loggerFactory.AddConsole();
+            loggerFactory.AddConsole(Configuration.GetSection("Logging"));
+            loggerFactory.AddDebug();
             
-            if (env.IsDevelopment())
-            {
-                app.UseErrorPage(ErrorPageOptions.ShowAll);
-                app.UseDatabaseErrorPage(DatabaseErrorPageOptions.ShowAll);
-            }
-            else
-            {
-                // WebApi error handler?
-                app.UseErrorPage(ErrorPageOptions.ShowAll);
-                app.UseDatabaseErrorPage(DatabaseErrorPageOptions.ShowAll);
-            }
+            app.UseIISPlatformHandler();
             
             app.UseMvc();
         }

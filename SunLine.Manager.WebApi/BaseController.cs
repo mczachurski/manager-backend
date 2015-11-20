@@ -35,6 +35,9 @@ namespace SunLine.Manager.WebApi
                 throw new ValidationNotInitializedException("Validation is not initialized in Controller. You must execute diffrent constructor.");
             }
             
+            return true;
+            
+            /*
             var modelExplorer = _modelMetadataProvider.GetModelExplorerForType(model.GetType(), model);
             var modelValidationProvider = new DataAnnotationsModelValidatorProvider();
 
@@ -61,6 +64,7 @@ namespace SunLine.Manager.WebApi
             }
 			            
 			return ValidationErrors.Count == 0;
+            */
         }
     }
 }

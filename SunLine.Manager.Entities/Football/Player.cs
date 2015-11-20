@@ -16,12 +16,9 @@ namespace SunLine.Manager.Entities.Football
         public FavouriteFootEnum FavouriteFoot { get; set; }
         public double Price { get; set; } 
         
-        public int PlayerRate 
+        public int GetPlayerRate() 
         {
-            get 
-            {
-                return Attack + Pass + Defense;
-            }
+            return Attack + Pass + Defense;
         }
         
         public override string ToString()

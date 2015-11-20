@@ -3,5 +3,13 @@
         "DefaultConnection": {
             "ConnectionString": "Data Source=Anemone.arvixe.com,1433;Initial Catalog=manager_test;Persist Security Info=True;User ID=manager_test;Password=<PASSWORD>"
         }
+    },
+    "Logging": {
+        "IncludeScopes": false,
+        "LogLevel": {
+            "Default": "Verbose",
+            "System": "Information",
+            "Microsoft": "Information"
+        }
     }
 }

@@ -1,12 +1,13 @@
 using System;
 using Microsoft.AspNet.Mvc;
-using Microsoft.AspNet.WebUtilities;
+using Microsoft.AspNet.Mvc.Filters;
+using Microsoft.AspNet.Http;
 using SunLine.Manager.Services.Core;
 using SunLine.Manager.DataTransferObjects.Response;
 
 namespace SunLine.Manager.WebApi.Attributes
 {
-	public class CheckAccessTokenAttribute : ActionFilterAttribute
+    public class CheckAccessTokenAttribute : ActionFilterAttribute
 	{
 		private readonly IUserSessionService _userSessionService;
 		private readonly IUserService _userService;

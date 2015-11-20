@@ -1,5 +1,5 @@
 using Microsoft.AspNet.Mvc;
-using Microsoft.AspNet.WebUtilities;
+using Microsoft.AspNet.Http;
 
 namespace SunLine.Manager.WebApi.HttpResult
 {

@@ -94,72 +94,73 @@ namespace SunLine.Manager.Services.Football
 		private double CalculatePrice(Player player)
 		{
 			double price = 0.0;
+			int playerRate = player.GetPlayerRate();
 			
-			if(player.PlayerRate < 20)
+			if(playerRate < 20)
 			{
 				price = 100000.0;	
 			}
-			else if(player.PlayerRate >= 20 && player.PlayerRate < 25)
+			else if(playerRate >= 20 && playerRate < 25)
 			{
 				price = 300000.0;
 			}
-			else if(player.PlayerRate >= 25 && player.PlayerRate < 30)
+			else if(playerRate >= 25 && playerRate < 30)
 			{
 				price = 800000.0;
 			}
-			else if(player.PlayerRate >= 30 && player.PlayerRate < 35)
+			else if(playerRate >= 30 && playerRate < 35)
 			{
 				price = 1300000.0;
 			}
-			else if(player.PlayerRate >= 35 && player.PlayerRate < 40)
+			else if(playerRate >= 35 && playerRate < 40)
 			{
 				price = 1800000.0;
 			}
-			else if(player.PlayerRate >= 40 && player.PlayerRate < 45)
+			else if(playerRate >= 40 && playerRate < 45)
 			{
 				price = 2400000.0;
 			}
-			else if(player.PlayerRate >= 45 && player.PlayerRate < 50)
+			else if(playerRate >= 45 && playerRate < 50)
 			{
 				price = 2400000.0;
 			}
-			else if(player.PlayerRate >= 50 && player.PlayerRate < 55)
+			else if(playerRate >= 50 && playerRate < 55)
 			{
 				price = 3200000.0;
 			}
-			else if(player.PlayerRate >= 55 && player.PlayerRate < 60)
+			else if(playerRate >= 55 && playerRate < 60)
 			{
 				price = 4000000.0;
 			}
-			else if(player.PlayerRate >= 60 && player.PlayerRate < 65)
+			else if(playerRate >= 60 && playerRate < 65)
 			{
 				price = 6000000.0;
 			}
-			else if(player.PlayerRate >= 65 && player.PlayerRate < 70)
+			else if(playerRate >= 65 && playerRate < 70)
 			{
 				price = 9000000.0;
 			}
-			else if(player.PlayerRate >= 70 && player.PlayerRate < 75)
+			else if(playerRate >= 70 && playerRate < 75)
 			{
 				price = 13000000.0;
 			}
-			else if(player.PlayerRate >= 75 && player.PlayerRate < 80)
+			else if(playerRate >= 75 && playerRate < 80)
 			{
 				price = 20000000.0;
 			}
-			else if(player.PlayerRate >= 80 && player.PlayerRate < 85)
+			else if(playerRate >= 80 && playerRate < 85)
 			{
 				price = 30000000.0;
 			}
-			else if(player.PlayerRate >= 85 && player.PlayerRate < 90)
+			else if(playerRate >= 85 && playerRate < 90)
 			{
 				price = 45000000.0;
 			}
-			else if(player.PlayerRate >= 90 && player.PlayerRate < 95)
+			else if(playerRate >= 90 && playerRate < 95)
 			{
 				price = 70000000.0;
 			}
-			else if(player.PlayerRate >= 95 && player.PlayerRate < 100)
+			else if(playerRate >= 95 && playerRate < 100)
 			{
 				price = 100000000.0;
 			}

@@ -1,24 +1,26 @@
 {
     "webroot": "wwwroot",
-    "userSecretsId": "aspnet5-Manager-84412a16-023a-4e62-91ce-b2edc30645d6",
     "version": "1.0.0-*",
 
     "dependencies": {
-        "EntityFramework.SqlServer": "7.0.0-beta5",
-        "EntityFramework.InMemory": "7.0.0-beta5",
-        "EntityFramework.Commands": "7.0.0-beta5",
-        "Microsoft.AspNet.Mvc": "6.0.0-beta5",
-        "Microsoft.AspNet.Server.IIS": "1.0.0-beta5",
-        "Microsoft.AspNet.Server.WebListener": "1.0.0-beta5",
-        "Microsoft.AspNet.Diagnostics": "1.0.0-beta5",
-        "Microsoft.AspNet.Diagnostics.Entity": "7.0.0-beta5",
-        "Microsoft.Framework.DependencyInjection": "1.0.0-beta5",
-        "Microsoft.Framework.DependencyInjection.Abstractions": "1.0.0-beta5",
-        "Microsoft.Framework.Configuration": "1.0.0-beta5",
-        "Microsoft.Framework.Configuration.UserSecrets": "1.0.0-beta5",
-        "Microsoft.Framework.Logging": "1.0.0-beta5",
-        "Microsoft.Framework.Logging.Console": "1.0.0-beta5",
-        "Kestrel": "1.0.0-beta5",
+        "Microsoft.AspNet.IISPlatformHandler": "1.0.0-*",
+        "Microsoft.AspNet.Mvc": "6.0.0-*",
+        "Microsoft.AspNet.Server.Kestrel": "1.0.0-*",
+        "Microsoft.AspNet.StaticFiles": "1.0.0-*",
+        "Microsoft.Extensions.Configuration.FileProviderExtensions" : "1.0.0-*",
+        "Microsoft.Extensions.Logging": "1.0.0-*",
+        "Microsoft.Extensions.Logging.Console": "1.0.0-*",
+        "Microsoft.Extensions.Logging.Debug" : "1.0.0-*",
+        "Microsoft.Extensions.Configuration": "1.0.0-*",
+        "Microsoft.Extensions.Configuration.Json": "1.0.0-*",
+        "Microsoft.Extensions.DependencyInjection": "1.0.0-*",
+        "Microsoft.Extensions.DependencyInjection.Abstractions": "1.0.0-*",
+        "EntityFramework.SqlServer": "7.0.0-*",
+        "EntityFramework.InMemory": "7.0.0-*",
+        "EntityFramework.Commands": "7.0.0-*",
+        "Microsoft.AspNet.Diagnostics": "1.0.0-*",
+        "Microsoft.AspNet.Mvc.TagHelpers": "6.0.0-*",
+        "Microsoft.AspNet.Tooling.Razor": "1.0.0-*",
         "Autofac": "4.0.0-*",
         "Autofac.Dnx": "4.0.0-*",
         "SunLine.Manager.Entities": "1.0.0-*",
@@ -28,13 +30,17 @@
     },
 
     "commands": {
-        "web": "Microsoft.AspNet.Hosting --server Microsoft.AspNet.Server.WebListener --server.urls http://localhost:5000",
-        "kestrel": "Microsoft.AspNet.Hosting --server Kestrel --server.urls http://localhost:5001"
+        "web": "Microsoft.AspNet.Server.Kestrel"
     },
 
     "frameworks": {
         "dnx451": {},
-        "dnxcore50": {}
+        "dnxcore50": {
+            "Microsoft.CSharp": "4.0.1-*",
+            "System.Collections": "4.0.11-*",
+            "System.Linq": "4.0.1-*",
+            "System.Threading": "4.0.11-*"
+        }
     },
 
     "exclude": [
@@ -48,5 +54,13 @@
     "**.xproj",
     "**.user",
     "**.vspscc"
-  ]
+  ],
+  "scripts": {
+    "prepublish": [
+      "npm install",
+      "bower install",
+      "gulp clean",
+      "gulp min"
+    ]
+  }
 }

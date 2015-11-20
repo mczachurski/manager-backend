@@ -20,9 +20,9 @@ namespace SunLine.Manager.Repositories.Infrastructure
             }
         }            
         
-        protected override void OnConfiguring(EntityOptionsBuilder optionsBuilder)
+        protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
-            optionsBuilder.UseInMemoryStore();
+            optionsBuilder.UseInMemoryDatabase();
         }
 
         public virtual DbSet<User> Users { get; set; }
@@ -41,10 +41,12 @@ namespace SunLine.Manager.Repositories.Infrastructure
         {           
             base.OnModelCreating(builder);
             
-            builder.Entity<User>().Reference(m => m.Team).InverseReference(x => x.User).ForeignKey<User>(x => x.TeamId);
-            builder.Entity<Team>().Reference(m => m.Stadium).InverseReference(x => x.Team).ForeignKey<Team>(x => x.StadiumId);
+            builder.Entity<User>().HasOne(m => m.Team).WithOne(x => x.User).HasForeignKey<User>(x => x.TeamId);
+            builder.Entity<Team>().HasOne(m => m.Stadium).WithOne(x => x.Team).HasForeignKey<Team>(x => x.StadiumId);
             
-            builder.Entity<Player>().Reference(m => m.Team).InverseCollection(x => x.Players).ForeignKey(x => x.TeamId);
+            builder.Entity<Player>().HasOne(m => m.Team).WithMany(x => x.Players).HasForeignKey(x => x.TeamId);
+            builder.Entity<Team>().HasOne(m => m.CurrentLeague).WithMany(x => x.Teams).HasForeignKey(x => x.CurrentLeagueId);
+            builder.Entity<Team>().HasMany(m => m.Leagues);
         }
     }
 }
